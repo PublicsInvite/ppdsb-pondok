@@ -5,6 +5,7 @@
 Vercel akan **PRIORITASKAN** folder `public/` jika ada. Jadi pastikan file di folder `public/` selalu ter-update!
 
 ### Struktur Folder:
+
 ```
 project python/
 ├── public/              ← VERCEL DEPLOY DARI SINI!
@@ -22,6 +23,7 @@ project python/
 ## 📝 Workflow Deployment
 
 ### 1. Edit File (di ROOT folder)
+
 ```bash
 # Edit file di root folder seperti biasa
 nano admin.html
@@ -29,6 +31,7 @@ nano index.html
 ```
 
 ### 2. Copy ke Folder Public
+
 ```bash
 # WAJIB copy file terbaru ke public/
 cp admin.html public/admin.html
@@ -39,6 +42,7 @@ cp cekstatus.html public/cekstatus.html
 ```
 
 ### 3. Commit & Deploy
+
 ```bash
 # Add semua perubahan
 git add -A
@@ -55,6 +59,7 @@ vercel --prod
 Buat script untuk otomatis sync file:
 
 ### sync-to-public.sh
+
 ```bash
 #!/bin/bash
 echo "Syncing files to public folder..."
@@ -67,6 +72,7 @@ echo "✅ Files synced successfully!"
 ```
 
 Cara pakai:
+
 ```bash
 chmod +x sync-to-public.sh
 ./sync-to-public.sh
@@ -75,14 +81,18 @@ chmod +x sync-to-public.sh
 ## 🚨 Troubleshooting
 
 ### Problem: File tidak terupdate di Vercel
+
 **Solusi:**
+
 1. Pastikan file sudah di-copy ke `public/` folder
 2. Check ukuran file: `ls -lh public/admin.html`
 3. Compare dengan file root: `ls -lh admin.html`
 4. Jika beda, copy ulang: `cp admin.html public/admin.html`
 
 ### Problem: Deployment lama/cache
+
 **Solusi:**
+
 ```bash
 # Clear cache Vercel lokal
 rm -rf .vercel
@@ -92,7 +102,9 @@ vercel --prod --force
 ```
 
 ### Problem: File masih tidak update
+
 **Solusi:**
+
 ```bash
 # 1. Pastikan sudah commit
 git status
@@ -118,6 +130,7 @@ curl -s https://your-url.vercel.app/admin | wc -c
 ## 📊 Verifikasi Deployment
 
 ### Cek ukuran file yang ter-deploy:
+
 ```bash
 # File lokal
 wc -c public/admin.html
@@ -129,6 +142,7 @@ curl -s https://your-url.vercel.app/admin | wc -c
 ```
 
 ### Cek fitur spesifik:
+
 ```bash
 # Cek modal verifikasi
 curl -s https://your-url.vercel.app/admin | grep -c "verifikasiModal"
@@ -142,6 +156,7 @@ curl -s https://your-url.vercel.app/admin | grep -o "Revisi" | head -3
 **Latest**: https://project-python-osz06qsv4-dewas-projects-d0163f17.vercel.app/
 
 ### Pages:
+
 - Homepage: `/`
 - Pendaftaran: `/daftar`
 - Cek Status: `/cek-status`

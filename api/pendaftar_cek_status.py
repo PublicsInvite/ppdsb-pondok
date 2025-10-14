@@ -31,7 +31,7 @@ class handler(BaseHTTPRequestHandler):
             supa = supabase_client(service_role=False)
             result = supa.table("pendaftar").select("*").eq("nomorregistrasi", nomor).execute()
             
-            if not result.data or len(result.data) == 0:
+            if not result.data:
                 self.send_response(404)
                 self.send_header('Content-Type', 'application/json')
                 self.send_header('Access-Control-Allow-Origin', '*')
@@ -50,8 +50,8 @@ class handler(BaseHTTPRequestHandler):
                 "nama": row.get("namalengkap", ""),
                 "nik": row.get("nikcalon", ""),
                 "tanggalLahir": row.get("tanggallahir", ""),
-                "status": row.get("statusberkas", "MENUNGGU_VERIFIKASI").lower().replace("menunggu_verifikasi", "pending"),
-                "alasan": row.get("alasan", ""),
+                "status": str(row.get("statusberkas", "pending")).lower(),
+                "alasan": row.get("alasan") or "",
                 "created_at": row.get("createdat", "")
             }
             
