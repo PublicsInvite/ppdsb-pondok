@@ -42,16 +42,37 @@ class handler(BaseHTTPRequestHandler):
             # Apply pagination
             res = query.range(from_, to_).execute()
             
+            # Get total count
+            count_res = supa.table("pendaftar").select("*", count="exact").execute()
+            total = count_res.count if hasattr(count_res, 'count') else len(res.data)
+            
+            # Transform data untuk admin dashboard
+            transformed_data = []
+            for row in res.data:
+                transformed_data.append({
+                    "id": row.get("id"),
+                    "nama": row.get("namalengkap", ""),
+                    "email": row.get("emailcalon", "-"),
+                    "no_hp": row.get("nomorhportu", "-"),
+                    "alamat": f"{row.get('alamatjalan', '')}, {row.get('desa', '')}, {row.get('kecamatan', '')}",
+                    "status": row.get("statusberkas", "pending").lower(),
+                    "created_at": row.get("createdat", ""),
+                    "alasan": row.get("alasan", "-"),
+                    # Include original data for detail view
+                    **row
+                })
+            
             # Response
             self.send_response(200)
             self.send_header('Content-Type', 'application/json')
             self.send_header('Access-Control-Allow-Origin', '*')
             self.end_headers()
             self.wfile.write(json.dumps({
-                "ok": True,
-                "rows": res.data,
+                "success": True,
+                "data": transformed_data,
+                "total": total,
                 "page": page,
-                "pageSize": page_size
+                "limit": page_size
             }).encode())
             
         except Exception as e:
@@ -60,7 +81,7 @@ class handler(BaseHTTPRequestHandler):
             self.send_header('Access-Control-Allow-Origin', '*')
             self.end_headers()
             self.wfile.write(json.dumps({
-                "ok": False,
+                "success": False,
                 "error": str(e)
             }).encode())
     

@@ -24,14 +24,24 @@ class handler(BaseHTTPRequestHandler):
                 self.send_header('Access-Control-Allow-Origin', '*')
                 self.end_headers()
                 self.wfile.write(json.dumps({
-                    "ok": False,
+                    "success": False,
                     "error": "id and status are required"
                 }).encode())
                 return
             
             p_id = data["id"]
-            p_status = data["status"]
+            p_status = data["status"].upper()  # Convert to uppercase
             p_deskripsi = data.get("alasan", None)
+            
+            # Map lowercase status to uppercase for database
+            status_map = {
+                'PENDING': 'MENUNGGU_VERIFIKASI',
+                'DITERIMA': 'DITERIMA',
+                'DITOLAK': 'DITOLAK',
+                'MENUNGGU_VERIFIKASI': 'MENUNGGU_VERIFIKASI'
+            }
+            
+            p_status = status_map.get(p_status, p_status)
             
             # Validasi status value
             valid_statuses = ['MENUNGGU_VERIFIKASI', 'DITERIMA', 'DITOLAK']
@@ -41,8 +51,8 @@ class handler(BaseHTTPRequestHandler):
                 self.send_header('Access-Control-Allow-Origin', '*')
                 self.end_headers()
                 self.wfile.write(json.dumps({
-                    "ok": False,
-                    "error": f"status must be one of: {', '.join(valid_statuses)}"
+                    "success": False,
+                    "error": f"status must be one of: pending, diterima, ditolak"
                 }).encode())
                 return
             
@@ -60,7 +70,7 @@ class handler(BaseHTTPRequestHandler):
             self.send_header('Access-Control-Allow-Origin', '*')
             self.end_headers()
             self.wfile.write(json.dumps({
-                "ok": True
+                "success": True
             }).encode())
             
         except Exception as e:
@@ -69,7 +79,7 @@ class handler(BaseHTTPRequestHandler):
             self.send_header('Access-Control-Allow-Origin', '*')
             self.end_headers()
             self.wfile.write(json.dumps({
-                "ok": False,
+                "success": False,
                 "error": str(e)
             }).encode())
     
