@@ -285,42 +285,6 @@
                   <i class="bi bi-cloud-upload"></i> Upload Bukti Pembayaran
                 </h6>
 
-                <!-- Nomor Rekening Pengirim -->
-                <div class="mb-3">
-                  <label class="form-label"
-                    >Nomor Rekening Pengirim
-                    <span class="text-danger">*</span></label
-                  >
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="nomorRekeningPengirim"
-                    required
-                    placeholder="Contoh: 1234567890"
-                  />
-                  <small class="text-muted"
-                    >Nomor rekening yang digunakan untuk transfer</small
-                  >
-                </div>
-
-                <!-- Nama Rekening Pengirim -->
-                <div class="mb-3">
-                  <label class="form-label"
-                    >Nama Pemilik Rekening
-                    <span class="text-danger">*</span></label
-                  >
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="namaRekening"
-                    required
-                    placeholder="Sesuai rekening bank"
-                  />
-                  <small class="text-muted"
-                    >Nama pemilik rekening yang melakukan transfer</small
-                  >
-                </div>
-
                 <!-- Upload Area -->
                 <div class="mb-3">
                   <label class="form-label"
@@ -502,10 +466,6 @@
 
             // Get form data
             const file = fileInput.files[0];
-            const nomorRekeningPengirim = document.getElementById(
-              "nomorRekeningPengirim"
-            ).value;
-            const namaRekening = document.getElementById("namaRekening").value;
             const catatan = document.getElementById("catatan").value;
 
             // Convert file to base64
@@ -537,8 +497,8 @@
               body: JSON.stringify({
                 nomor_registrasi: nomorReg,
                 nama_lengkap: nama,
-                nomor_rekening: nomorRekeningPengirim,
-                nama_rekening: namaRekening,
+                nomor_rekening: "",
+                nama_rekening: "",
                 bukti_pembayaran: uploadResult.url,
                 catatan: catatan,
               }),

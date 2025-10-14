@@ -14,6 +14,9 @@ class handler(BaseHTTPRequestHandler):
             # Get all pembayaran using the view
             result = supabase.table('v_pembayaran_report').select('*').execute()
             
+            # Get data safely
+            result_data = getattr(result, 'data', [])
+            
             # Send response
             self.send_response(200)
             self.send_header('Content-Type', 'application/json')
@@ -21,8 +24,8 @@ class handler(BaseHTTPRequestHandler):
             self.end_headers()
             
             response_data = {
-                'data': result.data if result.data else [],
-                'count': len(result.data) if result.data else 0
+                'data': result_data if result_data else [],
+                'count': len(result_data) if result_data else 0
             }
             
             self.wfile.write(json.dumps(response_data).encode())

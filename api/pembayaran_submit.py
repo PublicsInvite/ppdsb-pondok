@@ -17,8 +17,8 @@ class handler(BaseHTTPRequestHandler):
             post_data = self.rfile.read(content_length)
             data = json.loads(post_data.decode('utf-8'))
             
-            # Validate required fields
-            required_fields = ['nomor_registrasi', 'nama_lengkap', 'nomor_rekening', 'nama_rekening', 'bukti_pembayaran']
+            # Validate required fields (nomor_rekening dan nama_rekening optional)
+            required_fields = ['nomor_registrasi', 'nama_lengkap', 'bukti_pembayaran']
             for field in required_fields:
                 if field not in data or not data[field]:
                     self.send_response(400)
@@ -32,7 +32,8 @@ class handler(BaseHTTPRequestHandler):
             # Check if pendaftar exists
             pendaftar = supabase.table('pendaftar').select('*').eq('nomor_registrasi', data['nomor_registrasi']).execute()
             
-            if not pendaftar.data:
+            pendaftar_data = getattr(pendaftar, 'data', None)
+            if not pendaftar_data:
                 self.send_response(404)
                 self.send_header('Content-Type', 'application/json')
                 self.end_headers()
@@ -44,11 +45,12 @@ class handler(BaseHTTPRequestHandler):
             # Check if payment already exists
             existing_payment = supabase.table('pembayaran').select('*').eq('nomor_registrasi', data['nomor_registrasi']).execute()
             
-            if existing_payment.data:
+            existing_data = getattr(existing_payment, 'data', None)
+            if existing_data:
                 # Update existing payment
                 result = supabase.table('pembayaran').update({
-                    'nomor_rekening': data['nomor_rekening'],
-                    'nama_rekening': data['nama_rekening'],
+                    'nomor_rekening': data.get('nomor_rekening', ''),
+                    'nama_rekening': data.get('nama_rekening', ''),
                     'bukti_pembayaran': data['bukti_pembayaran'],
                     'status_pembayaran': 'PENDING',
                     'catatan_admin': data.get('catatan', '')
@@ -56,7 +58,7 @@ class handler(BaseHTTPRequestHandler):
                 
                 response_data = {
                     'message': 'Pembayaran berhasil diupdate',
-                    'nomor_pembayaran': existing_payment.data[0]['nomor_pembayaran'],
+                    'nomor_pembayaran': existing_data[0]['nomor_pembayaran'],
                     'status': 'updated'
                 }
             else:
@@ -71,8 +73,8 @@ class handler(BaseHTTPRequestHandler):
                     'nama_lengkap': data['nama_lengkap'],
                     'jumlah': 500000.00,
                     'metode_pembayaran': 'Transfer Bank BRI',
-                    'nomor_rekening': data['nomor_rekening'],
-                    'nama_rekening': data['nama_rekening'],
+                    'nomor_rekening': data.get('nomor_rekening', ''),
+                    'nama_rekening': data.get('nama_rekening', ''),
                     'bukti_pembayaran': data['bukti_pembayaran'],
                     'status_pembayaran': 'PENDING',
                     'catatan_admin': data.get('catatan', '')

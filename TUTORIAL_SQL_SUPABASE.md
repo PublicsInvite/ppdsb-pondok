@@ -1,6 +1,7 @@
 # 📚 TUTORIAL: Menjalankan SQL di Supabase Dashboard
 
 ## 🎯 Tujuan
+
 Tutorial ini akan memandu Anda langkah demi langkah untuk menjalankan SQL migration sistem pembayaran di Supabase Dashboard.
 
 ---
@@ -8,12 +9,14 @@ Tutorial ini akan memandu Anda langkah demi langkah untuk menjalankan SQL migrat
 ## 📋 Persiapan
 
 ### Yang Anda Butuhkan:
+
 1. ✅ Akun Supabase (sudah login)
 2. ✅ Project Supabase yang sudah dibuat
 3. ✅ File `sql_pembayaran.sql` (sudah ada di project)
 4. ✅ Browser (Chrome/Firefox/Safari)
 
 ### Waktu yang Dibutuhkan:
+
 ⏱️ **5-10 menit**
 
 ---
@@ -46,6 +49,7 @@ Tutorial ini akan memandu Anda langkah demi langkah untuk menjalankan SQL migrat
 3. Klik nama project tersebut untuk membukanya
 
 **Contoh tampilan:**
+
 ```
 ┌───────────────────────────────────────────────┐
 │  Your Projects                                │
@@ -59,7 +63,8 @@ Tutorial ini akan memandu Anda langkah demi langkah untuk menjalankan SQL migrat
 └───────────────────────────────────────────────┘
 ```
 
-**Tips:** 
+**Tips:**
+
 - Jika Anda lupa nama project, cek file `.env` atau `vercel.json`
 - Biasanya URL Supabase ada di environment variables
 
@@ -72,6 +77,7 @@ Tutorial ini akan memandu Anda langkah demi langkah untuk menjalankan SQL migrat
 3. Klik menu **"SQL Editor"**
 
 **Lokasi menu:**
+
 ```
 Sidebar Kiri:
 ┌──────────────────────┐
@@ -96,6 +102,7 @@ Sidebar Kiri:
 3. Akan muncul editor kosong di sebelah kanan
 
 **Tampilan SQL Editor:**
+
 ```
 ┌────────────────────────────────────────────────────────┐
 │  SQL Editor                          [+ New query]     │
@@ -124,6 +131,7 @@ Sidebar Kiri:
 4. Atau klik kanan → Copy
 
 **Isi file sql_pembayaran.sql:**
+
 ```sql
 -- ============================================
 -- SQL MIGRATION: SISTEM PEMBAYARAN PENDAFTARAN
@@ -149,6 +157,7 @@ CREATE TABLE IF NOT EXISTS pembayaran (
 4. Pastikan semua SQL ter-paste dengan benar
 
 **Setelah paste:**
+
 ```
 ┌────────────────────────────────────────────────────────┐
 │  Untitled Query                      [Rename] [Delete] │
@@ -169,6 +178,7 @@ CREATE TABLE IF NOT EXISTS pembayaran (
 ```
 
 **Checklist Sebelum Run:**
+
 - ☐ Semua kode SQL sudah ter-paste
 - ☐ Scroll ke bawah untuk cek tidak ada yang terpotong
 - ☐ Tidak ada error syntax (garis merah di editor)
@@ -182,6 +192,7 @@ CREATE TABLE IF NOT EXISTS pembayaran (
 3. Tunggu proses eksekusi (biasanya 5-10 detik)
 
 **Proses Running:**
+
 ```
 ┌────────────────────────────────────────────────────────┐
 │  [▶ Run]  [Save]                                      │
@@ -198,6 +209,7 @@ CREATE TABLE IF NOT EXISTS pembayaran (
 #### **✅ Jika SUKSES:**
 
 Anda akan melihat pesan seperti ini di bagian bawah:
+
 ```
 ┌────────────────────────────────────────────────────────┐
 │  Results                                               │
@@ -209,6 +221,7 @@ Anda akan melihat pesan seperti ini di bagian bawah:
 ```
 
 **Pesan sukses bisa berupa:**
+
 - ✅ "Success. No rows returned"
 - ✅ "CREATE TABLE"
 - ✅ "CREATE INDEX"
@@ -219,6 +232,7 @@ Anda akan melihat pesan seperti ini di bagian bawah:
 #### **❌ Jika ADA ERROR:**
 
 Anda akan melihat pesan error seperti:
+
 ```
 ┌────────────────────────────────────────────────────────┐
 │  Results                                               │
@@ -230,12 +244,12 @@ Anda akan melihat pesan error seperti:
 
 **Solusi untuk error umum:**
 
-| Error | Penyebab | Solusi |
-|-------|----------|--------|
-| "relation already exists" | Tabel sudah dibuat sebelumnya | ✅ SKIP - Sudah OK! |
-| "function already exists" | Function sudah ada | ✅ Ganti `CREATE` jadi `CREATE OR REPLACE` |
-| "syntax error" | Ada typo di SQL | ❌ Cek kembali SQL yang di-paste |
-| "permission denied" | User tidak punya akses | ❌ Login sebagai owner project |
+| Error                     | Penyebab                      | Solusi                                     |
+| ------------------------- | ----------------------------- | ------------------------------------------ |
+| "relation already exists" | Tabel sudah dibuat sebelumnya | ✅ SKIP - Sudah OK!                        |
+| "function already exists" | Function sudah ada            | ✅ Ganti `CREATE` jadi `CREATE OR REPLACE` |
+| "syntax error"            | Ada typo di SQL               | ❌ Cek kembali SQL yang di-paste           |
+| "permission denied"       | User tidak punya akses        | ❌ Login sebagai owner project             |
 
 ---
 
@@ -250,6 +264,7 @@ Untuk memastikan tabel berhasil dibuat:
    - ✅ `konfigurasi_pembayaran`
 
 **Tampilan Table Editor:**
+
 ```
 ┌────────────────────────────────────────────────────────┐
 │  Tables                                   [+ New table] │
@@ -290,6 +305,7 @@ SELECT * FROM konfigurasi_pembayaran;
 **Hasil yang diharapkan:**
 
 **Test 1 & 2:** (Kosong karena belum ada data)
+
 ```
 ┌─────────────────────────────────────┐
 │  Results: 0 rows                    │
@@ -298,6 +314,7 @@ SELECT * FROM konfigurasi_pembayaran;
 ```
 
 **Test 3:** (Generate nomor pembayaran)
+
 ```
 ┌─────────────────────────────────────┐
 │  generate_nomor_pembayaran          │
@@ -307,6 +324,7 @@ SELECT * FROM konfigurasi_pembayaran;
 ```
 
 **Test 4:** (Konfigurasi pembayaran)
+
 ```
 ┌─────────────────────────────────────────────────────────┐
 │  nama_setting          │  nilai                         │
@@ -344,6 +362,7 @@ Pastikan semua ini sudah OK:
 Jika semua checklist di atas ✅, maka setup database **BERHASIL!**
 
 ### Yang Sudah Dibuat:
+
 1. ✅ Tabel `pembayaran` dengan 16 kolom
 2. ✅ Tabel `konfigurasi_pembayaran` dengan 6 data default
 3. ✅ 3 Index untuk performa (nomor_registrasi, status, tanggal)
@@ -352,6 +371,7 @@ Jika semua checklist di atas ✅, maka setup database **BERHASIL!**
 6. ✅ 1 View `v_pembayaran_report` untuk reporting
 
 ### Next Steps:
+
 1. ✅ Test aplikasi: https://project-python-m23c0ptxq-dewas-projects-d0163f17.vercel.app
 2. ✅ Daftar user baru
 3. ✅ Admin approve pendaftaran
@@ -364,37 +384,49 @@ Jika semua checklist di atas ✅, maka setup database **BERHASIL!**
 ## 🆘 TROUBLESHOOTING
 
 ### Problem: "Tidak bisa login ke Supabase"
+
 **Solusi:**
+
 1. Reset password via "Forgot Password"
 2. Atau daftar akun baru (free tier)
 3. Cek email untuk verifikasi
 
 ### Problem: "Project tidak muncul"
+
 **Solusi:**
+
 1. Pastikan login dengan akun yang benar
 2. Cek organization (klik dropdown organization di atas)
 3. Mungkin project di organization lain
 
 ### Problem: "SQL Editor tidak ada"
+
 **Solusi:**
+
 1. Scroll sidebar ke bawah
 2. Atau gunakan search: tekan `Ctrl+K` dan ketik "SQL"
 3. Update browser ke versi terbaru
 
 ### Problem: "Run button tidak bisa diklik"
+
 **Solusi:**
+
 1. Pastikan ada SQL di editor (tidak kosong)
 2. Refresh halaman browser
 3. Clear cache browser
 
 ### Problem: "Error: permission denied"
+
 **Solusi:**
+
 1. Pastikan Anda owner/admin project
 2. Cek Settings → Database → Connection pooling
 3. Contact team member yang punya akses
 
 ### Problem: "Tabel tidak muncul di Table Editor"
+
 **Solusi:**
+
 1. Refresh halaman browser (F5 atau Cmd+R)
 2. Klik ikon refresh di Table Editor
 3. Tunggu 10-20 detik, database sedang sync
@@ -404,11 +436,13 @@ Jika semua checklist di atas ✅, maka setup database **BERHASIL!**
 ## 📞 Butuh Bantuan?
 
 ### Official Resources:
+
 - 📖 Supabase Docs: https://supabase.com/docs
 - 💬 Discord Community: https://discord.supabase.com
 - 🐛 GitHub Issues: https://github.com/supabase/supabase/issues
 
 ### Video Tutorial (Alternative):
+
 - YouTube: Search "Supabase SQL Editor tutorial"
 - Channel resmi: Supabase Official Channel
 
@@ -420,7 +454,7 @@ Jika semua checklist di atas ✅, maka setup database **BERHASIL!**
 2. **Rename query**: Klik "Rename" untuk memberi nama yang jelas (misalnya: "Setup Pembayaran")
 3. **Favorite query**: Star query yang sering dipakai
 4. **History**: Supabase menyimpan history query, bisa diakses via dropdown
-5. **Keyboard shortcuts**: 
+5. **Keyboard shortcuts**:
    - `Ctrl/Cmd + Enter` = Run query
    - `Ctrl/Cmd + S` = Save query
    - `Ctrl/Cmd + K` = Search menu
