@@ -11,8 +11,8 @@ supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 class handler(BaseHTTPRequestHandler):
     def do_GET(self):
         try:
-            # Get all pembayaran using the view
-            result = supabase.table('v_pembayaran_report').select('*').execute()
+            # Get all pembayaran from pembayaran table, ordered by newest first
+            result = supabase.table('pembayaran').select('*').order('created_at', desc=True).execute()
             
             # Get data safely
             result_data = getattr(result, 'data', [])
