@@ -6,6 +6,6 @@
     { "source": "/daftar", "destination": "/daftar.html" },
     { "source": "/admin", "destination": "/admin.html" },
     { "source": "/login", "destination": "/login.html" },
-    { "source": "/cek-status", "destination": "/cek-status.html" }
+    { "source": "/cek-status", "destination": "/cekstatus.html" }
   ]
 }

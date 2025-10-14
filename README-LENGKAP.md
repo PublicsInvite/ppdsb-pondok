@@ -5,11 +5,13 @@
 ### ✅ Yang Sudah Berhasil:
 
 1. **Landing Page** (`/`)
+
    - Informasi Pondok Pesantren
    - Navigasi ke halaman lain
    - Desain hijau modern dengan animasi GSAP
 
 2. **Form Pendaftaran** (`/daftar`)
+
    - 20+ field data lengkap:
      - NIK, KK, NISN
      - Data pribadi (nama, tempat/tanggal lahir, jenis kelamin)
@@ -20,18 +22,21 @@
    - Auto-generate nomor registrasi (format: REG-YYYYMMDD-XXXXXX)
 
 3. **Cek Status Pendaftaran** (`/cek-status`) ⭐ BARU
+
    - Input nomor registrasi
    - Tampilkan status (pending/diterima/ditolak)
    - Info lengkap pendaftar
    - Public access (tanpa login)
 
 4. **Login Admin** (`/login`) ⭐ BARU
+
    - Email: `admin`
    - Password: `admin`
    - Session management dengan localStorage
    - Auto-redirect jika sudah login
 
 5. **Admin Dashboard** (`/admin`)
+
    - ✅ Require login (redirect ke /login jika belum login)
    - ✅ Tombol logout
    - View semua pendaftar
@@ -42,6 +47,7 @@
    - View detail pendaftar
 
 6. **API Backend** (Python Serverless)
+
    - ✅ `POST /api/pendaftar_create` - Buat pendaftaran baru
    - ✅ `GET /api/pendaftar_list` - List pendaftar (admin)
    - ✅ `PATCH /api/pendaftar_status` - Update status (admin)
@@ -60,11 +66,13 @@
 **Base URL:** https://project-python-c27wf6dpy-dewas-projects-d0163f17.vercel.app
 
 ### Halaman Public:
+
 - **Landing Page:** https://project-python-c27wf6dpy-dewas-projects-d0163f17.vercel.app/
 - **Form Pendaftaran:** https://project-python-c27wf6dpy-dewas-projects-d0163f17.vercel.app/daftar
 - **Cek Status:** https://project-python-c27wf6dpy-dewas-projects-d0163f17.vercel.app/cek-status
 
 ### Halaman Admin:
+
 - **Login Admin:** https://project-python-c27wf6dpy-dewas-projects-d0163f17.vercel.app/login
 - **Dashboard Admin:** https://project-python-c27wf6dpy-dewas-projects-d0163f17.vercel.app/admin
 
@@ -84,6 +92,7 @@ Password: admin
 ## 🧪 Testing Flow
 
 ### 1. Pendaftaran Siswa Baru:
+
 ```bash
 # Via Browser
 1. Buka: /daftar
@@ -93,6 +102,7 @@ Password: admin
 ```
 
 ### 2. Cek Status Pendaftaran:
+
 ```bash
 # Via Browser
 1. Buka: /cek-status
@@ -105,6 +115,7 @@ curl "https://project-python-c27wf6dpy-dewas-projects-d0163f17.vercel.app/api/pe
 ```
 
 ### 3. Login Admin:
+
 ```bash
 # Via Browser
 1. Buka: /login
@@ -115,6 +126,7 @@ curl "https://project-python-c27wf6dpy-dewas-projects-d0163f17.vercel.app/api/pe
 ```
 
 ### 4. Kelola Pendaftaran (Admin):
+
 ```bash
 # Via Browser (setelah login)
 1. View list pendaftar
@@ -129,11 +141,11 @@ curl "https://project-python-c27wf6dpy-dewas-projects-d0163f17.vercel.app/api/pe
 
 ## 📊 Status Pendaftaran
 
-| Status | Deskripsi | Warna |
-|--------|-----------|-------|
+| Status                            | Deskripsi                | Warna      |
+| --------------------------------- | ------------------------ | ---------- |
 | `pending` / `MENUNGGU_VERIFIKASI` | Belum diverifikasi admin | 🟡 Warning |
-| `diterima` / `DITERIMA` | Diterima oleh admin | 🟢 Success |
-| `ditolak` / `DITOLAK` | Ditolak oleh admin | 🔴 Danger |
+| `diterima` / `DITERIMA`           | Diterima oleh admin      | 🟢 Success |
+| `ditolak` / `DITOLAK`             | Ditolak oleh admin       | 🔴 Danger  |
 
 ---
 
@@ -177,6 +189,7 @@ project-python/
 ## 🔄 Update Terbaru (Oktober 14, 2025)
 
 ### Fitur Baru:
+
 1. ✅ **Cek Status Pendaftaran** - Public page untuk cek status by nomor registrasi
 2. ✅ **Login Admin** - Halaman login dengan credential: admin/admin
 3. ✅ **Session Management** - Admin harus login untuk akses dashboard
@@ -184,6 +197,7 @@ project-python/
 5. ✅ **API Cek Status** - Public API endpoint untuk cek status pendaftaran
 
 ### Bug Fixes:
+
 1. ✅ Fixed admin dashboard API response format (`ok` → `success`)
 2. ✅ Fixed field mapping (nama, email, no_hp, alamat, status)
 3. ✅ Fixed status lowercase/uppercase conversion
@@ -194,16 +208,19 @@ project-python/
 ## 📝 Notes
 
 ### Security (Development):
+
 - Login admin menggunakan hardcoded credentials di frontend
 - Session menggunakan localStorage (client-side)
 - ⚠️ **Untuk production, gunakan proper authentication backend!**
 
 ### Database:
+
 - RLS policy enabled untuk security
 - ANON key untuk public operations (create, cek status)
 - SERVICE_ROLE key untuk admin operations (list, update status)
 
 ### API Response Format:
+
 ```json
 // Success
 {
@@ -241,6 +258,7 @@ project-python/
 Sistem pendaftaran Pondok Pesantren sudah lengkap dan siap digunakan!
 
 **Test sekarang:**
+
 1. Daftar siswa baru di: `/daftar`
 2. Cek status di: `/cek-status`
 3. Login admin di: `/login` (admin/admin)
