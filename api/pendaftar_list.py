@@ -29,7 +29,7 @@ class handler(BaseHTTPRequestHandler):
             
             # Query Supabase with service-role for admin operations
             supa = supabase_client(service_role=True)
-            query = supa.table("pendaftar").select("*").order("createdAt", desc=True)
+            query = supa.table("pendaftar").select("*").order("createdat", desc=True)
             
             # Apply filters
             if status:
