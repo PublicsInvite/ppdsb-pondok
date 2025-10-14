@@ -1,11 +1,13 @@
 {
-  "functions": {
-    "api/**/*.py": {
-      "runtime": "python3.11"
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/**/*.py",
+      "use": "@vercel/python"
     }
-  },
+  ],
   "routes": [
-    { "src": "^/api/.*", "dest": "/api" },
+    { "src": "/api/(.*)", "dest": "/api/$1" },
     { "src": "/", "dest": "/index.html" },
     { "src": "/daftar", "dest": "/daftar.html" },
     { "src": "/admin", "dest": "/admin.html" },
