@@ -629,21 +629,8 @@
           const result = await response.json();
 
           if (result.success && result.data) {
-            // Store full data for detail view
-            allPendaftarData = result.data.map(item => ({
-              id: item.id,
-              nomorRegistrasi: item.no_reg || '-',
-              nikCalon: item.nik || '-',
-              namaLengkap: item.nama || '-',
-              tempatLahir: item.tempat_lahir || '-',
-              tanggalLahir: item.tanggal_lahir || '-',
-              jenisKelamin: item.jenis_kelamin || '-',
-              noHpCalon: item.no_hp || '-',
-              file_ijazah: item.file_ijazah,
-              file_kk: item.file_kk,
-              file_akta: item.file_akta,
-              file_foto: item.file_foto
-            }));
+            // Store SEMUA data lengkap untuk detail view
+            allPendaftarData = result.data;
 
             const tbody = document.getElementById("pendaftarTable");
             tbody.innerHTML = result.data
@@ -740,49 +727,158 @@
             return;
           }
 
-          // Build detail HTML
+          // Build detail HTML dengan SEMUA data
           let html = `
             <div class="row g-3">
-              <div class="col-md-6">
-                <strong>Nomor Registrasi:</strong><br>
-                ${pendaftar.nomorRegistrasi || '-'}
+              <!-- Data Registrasi -->
+              <div class="col-12">
+                <h6 class="bg-success text-white p-2 rounded">
+                  <i class="bi bi-card-checklist"></i> Data Registrasi
+                </h6>
               </div>
               <div class="col-md-6">
-                <strong>NIK:</strong><br>
-                ${pendaftar.nikCalon || '-'}
+                <strong>Nomor Registrasi:</strong><br>
+                <span class="text-primary">${pendaftar.nomorregistrasi || '-'}</span>
+              </div>
+              <div class="col-md-6">
+                <strong>Tanggal Daftar:</strong><br>
+                ${pendaftar.createdat ? new Date(pendaftar.createdat).toLocaleString('id-ID') : '-'}
+              </div>
+              <div class="col-md-6">
+                <strong>Status Berkas:</strong><br>
+                <span class="badge bg-${
+                  pendaftar.statusberkas === 'PENDING' ? 'warning' :
+                  pendaftar.statusberkas === 'REVISI' ? 'info' :
+                  pendaftar.statusberkas === 'DITERIMA' ? 'success' : 'danger'
+                }">${pendaftar.statusberkas || 'PENDING'}</span>
+              </div>
+              <div class="col-md-6">
+                <strong>Alasan/Catatan:</strong><br>
+                ${pendaftar.alasan || '-'}
+              </div>
+
+              <!-- Data Calon Santri -->
+              <div class="col-12 mt-3">
+                <h6 class="bg-success text-white p-2 rounded">
+                  <i class="bi bi-person"></i> Data Calon Santri
+                </h6>
+              </div>
+              <div class="col-md-6">
+                <strong>NIK Calon:</strong><br>
+                ${pendaftar.nikcalon || '-'}
+              </div>
+              <div class="col-md-6">
+                <strong>NIK Wali:</strong><br>
+                ${pendaftar.nikwali || '-'}
               </div>
               <div class="col-md-12">
                 <strong>Nama Lengkap:</strong><br>
-                ${pendaftar.namaLengkap || '-'}
+                <span class="fs-5 text-primary">${pendaftar.namalengkap || '-'}</span>
               </div>
               <div class="col-md-6">
                 <strong>Tempat Lahir:</strong><br>
-                ${pendaftar.tempatLahir || '-'}
+                ${pendaftar.tempatlahir || '-'}
               </div>
               <div class="col-md-6">
                 <strong>Tanggal Lahir:</strong><br>
-                ${pendaftar.tanggalLahir || '-'}
+                ${pendaftar.tanggallahir || '-'}
               </div>
               <div class="col-md-6">
                 <strong>Jenis Kelamin:</strong><br>
-                ${pendaftar.jenisKelamin || '-'}
+                ${pendaftar.jeniskelamin === 'L' ? 'Laki-laki' : pendaftar.jeniskelamin === 'P' ? 'Perempuan' : '-'}
               </div>
               <div class="col-md-6">
-                <strong>No HP:</strong><br>
-                ${pendaftar.noHpCalon || '-'}
+                <strong>No HP/WhatsApp:</strong><br>
+                <a href="https://wa.me/${pendaftar.nomorhportu}" target="_blank">${pendaftar.nomorhportu || '-'}</a>
+              </div>
+
+              <!-- Alamat -->
+              <div class="col-12 mt-3">
+                <h6 class="bg-success text-white p-2 rounded">
+                  <i class="bi bi-geo-alt"></i> Alamat Lengkap
+                </h6>
+              </div>
+              <div class="col-md-12">
+                <strong>Alamat Jalan:</strong><br>
+                ${pendaftar.alamatjalan || '-'}
+              </div>
+              <div class="col-md-6">
+                <strong>Desa:</strong><br>
+                ${pendaftar.desa || '-'}
+              </div>
+              <div class="col-md-6">
+                <strong>Kecamatan:</strong><br>
+                ${pendaftar.kecamatan || '-'}
+              </div>
+              <div class="col-md-6">
+                <strong>Kabupaten/Kota:</strong><br>
+                ${pendaftar.kabkota || '-'}
+              </div>
+              <div class="col-md-6">
+                <strong>Provinsi:</strong><br>
+                ${pendaftar.provinsi || '-'}
+              </div>
+
+              <!-- Pendidikan & Rencana -->
+              <div class="col-12 mt-3">
+                <h6 class="bg-success text-white p-2 rounded">
+                  <i class="bi bi-mortarboard"></i> Pendidikan & Rencana
+                </h6>
+              </div>
+              <div class="col-md-6">
+                <strong>Ijazah Formal Terakhir:</strong><br>
+                ${pendaftar.ijazahformalterakhir || '-'}
+              </div>
+              <div class="col-md-6">
+                <strong>Rencana Domisili:</strong><br>
+                ${pendaftar.rencanadomisili || '-'}
+              </div>
+              <div class="col-md-6">
+                <strong>Rencana Tingkat:</strong><br>
+                ${pendaftar.rencanatingkat || '-'}
+              </div>
+              <div class="col-md-6">
+                <strong>Rencana Kelas:</strong><br>
+                ${pendaftar.rencanakelas || '-'}
+              </div>
+
+              <!-- Data Orang Tua -->
+              <div class="col-12 mt-3">
+                <h6 class="bg-success text-white p-2 rounded">
+                  <i class="bi bi-people"></i> Data Orang Tua
+                </h6>
+              </div>
+              <div class="col-md-6">
+                <strong>Nama Ayah:</strong><br>
+                ${pendaftar.namaayah || '-'}
+              </div>
+              <div class="col-md-6">
+                <strong>NIK Ayah:</strong><br>
+                ${pendaftar.nikayah || '-'}
+              </div>
+              <div class="col-md-6">
+                <strong>Nama Ibu:</strong><br>
+                ${pendaftar.namaibu || '-'}
+              </div>
+              <div class="col-md-6">
+                <strong>NIK Ibu:</strong><br>
+                ${pendaftar.nikibu || '-'}
               </div>
               
+              <!-- Berkas Upload -->
               <div class="col-12 mt-3">
-                <h6 class="border-bottom pb-2">Berkas Upload</h6>
+                <h6 class="bg-success text-white p-2 rounded">
+                  <i class="bi bi-file-earmark-arrow-up"></i> Berkas Upload
+                </h6>
               </div>
           `;
 
           // Check and display uploaded files
           const files = [
             { key: 'file_ijazah', label: 'Scan Ijazah', icon: 'file-pdf' },
-            { key: 'file_kk', label: 'Scan KK', icon: 'file-pdf' },
-            { key: 'file_akta', label: 'Scan Akta', icon: 'file-pdf' },
-            { key: 'file_foto', label: 'Pas Foto', icon: 'image' }
+            { key: 'file_kk', label: 'Scan Kartu Keluarga (KK)', icon: 'file-pdf' },
+            { key: 'file_akta', label: 'Scan Akta Kelahiran', icon: 'file-pdf' },
+            { key: 'file_foto', label: 'Pas Foto 3x4', icon: 'image' }
           ];
 
           let hasFiles = false;
@@ -792,12 +888,12 @@
               hasFiles = true;
               html += `
                 <div class="col-md-6">
-                  <div class="card">
+                  <div class="card border-success">
                     <div class="card-body">
                       <h6 class="card-title">
-                        <i class="bi bi-${file.icon}"></i> ${file.label}
+                        <i class="bi bi-${file.icon} text-success"></i> ${file.label}
                       </h6>
-                      <a href="${url}" target="_blank" class="btn btn-sm btn-primary">
+                      <a href="${url}" target="_blank" class="btn btn-sm btn-success">
                         <i class="bi bi-download"></i> Download / Lihat
                       </a>
                     </div>
