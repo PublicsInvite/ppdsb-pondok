@@ -1,9 +1,10 @@
 {
-  "rewrites": [
-    { "source": "/", "destination": "/public/index.html" },
-    { "source": "/daftar", "destination": "/public/daftar.html" },
-    { "source": "/admin", "destination": "/public/admin.html" },
-    { "source": "/login", "destination": "/public/login.html" },
-    { "source": "/cek-status", "destination": "/public/cekstatus.html" }
+  "routes": [
+    { "src": "/", "dest": "/index.html" },
+    { "src": "/daftar", "dest": "/daftar.html" },
+    { "src": "/admin", "dest": "/admin.html" },
+    { "src": "/login", "dest": "/login.html" },
+    { "src": "/cek-status", "dest": "/cekstatus.html" },
+    { "src": "/api/(.*)", "dest": "/api/$1" }
   ]
 }
