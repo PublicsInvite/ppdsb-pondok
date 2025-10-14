@@ -1,11 +1,9 @@
 {
-  "trailingSlash": false,
-  "cleanUrls": true,
   "rewrites": [
-    { "source": "/", "destination": "/index.html" },
-    { "source": "/daftar", "destination": "/daftar.html" },
-    { "source": "/admin", "destination": "/admin.html" },
-    { "source": "/login", "destination": "/login.html" },
-    { "source": "/cek-status", "destination": "/cekstatus.html" }
+    { "source": "/", "destination": "/public/index.html" },
+    { "source": "/daftar", "destination": "/public/daftar.html" },
+    { "source": "/admin", "destination": "/public/admin.html" },
+    { "source": "/login", "destination": "/public/login.html" },
+    { "source": "/cek-status", "destination": "/public/cekstatus.html" }
   ]
 }
