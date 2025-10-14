@@ -184,6 +184,16 @@
             <a
               class="nav-link"
               href="#"
+              data-tab="pembayaran"
+              onclick="switchTab('pembayaran')"
+            >
+              <i class="bi bi-credit-card"></i> Data Pembayaran
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="#"
               data-tab="profil"
               onclick="switchTab('profil')"
             >
@@ -332,6 +342,91 @@
                     <tbody id="pendaftarTable">
                       <tr>
                         <td colspan="5" class="text-center">Loading...</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab: Pembayaran -->
+          <div id="tab-pembayaran" class="tab-content" style="display: none">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <h4><i class="bi bi-credit-card"></i> Data Pembayaran</h4>
+              <div>
+                <select id="filterStatusPembayaran" class="form-select d-inline-block w-auto me-2" onchange="loadPembayaran()">
+                  <option value="">Semua Status</option>
+                  <option value="PENDING">Pending</option>
+                  <option value="VERIFIED">Verified</option>
+                  <option value="REJECTED">Rejected</option>
+                </select>
+                <button class="btn btn-success" onclick="loadPembayaran()">
+                  <i class="bi bi-arrow-clockwise"></i> Refresh
+                </button>
+              </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="row mb-4">
+              <div class="col-md-3">
+                <div class="card stat-card border-warning">
+                  <div class="card-body">
+                    <h6 class="text-muted">Pending</h6>
+                    <h3 class="mb-0" id="statPending">0</h3>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="card stat-card border-success">
+                  <div class="card-body">
+                    <h6 class="text-muted">Verified</h6>
+                    <h3 class="mb-0" id="statVerified">0</h3>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="card stat-card border-danger">
+                  <div class="card-body">
+                    <h6 class="text-muted">Rejected</h6>
+                    <h3 class="mb-0" id="statRejected">0</h3>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="card stat-card border-primary">
+                  <div class="card-body">
+                    <h6 class="text-muted">Total Revenue</h6>
+                    <h3 class="mb-0" id="statRevenue">Rp 0</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Table -->
+            <div class="card">
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th>No</th>
+                        <th>Nomor Pembayaran</th>
+                        <th>Nomor Registrasi</th>
+                        <th>Nama Lengkap</th>
+                        <th>Jumlah</th>
+                        <th>Status</th>
+                        <th>Tanggal Upload</th>
+                        <th>Aksi</th>
+                      </tr>
+                    </thead>
+                    <tbody id="pembayaranTableBody">
+                      <tr>
+                        <td colspan="8" class="text-center">
+                          <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                          </div>
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -679,6 +774,126 @@
               onclick="confirmVerifikasi()"
               id="btnConfirmVerifikasi"
             >
+              Konfirmasi
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Detail Pembayaran -->
+    <div class="modal fade" id="detailPembayaranModal" tabindex="-1">
+      <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">
+              <i class="bi bi-credit-card"></i> Detail Pembayaran
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-6">
+                <table class="table table-borderless">
+                  <tr>
+                    <th width="40%">Nomor Pembayaran:</th>
+                    <td id="detail-nomor-pembayaran"></td>
+                  </tr>
+                  <tr>
+                    <th>Nomor Registrasi:</th>
+                    <td id="detail-nomor-registrasi"></td>
+                  </tr>
+                  <tr>
+                    <th>Nama Lengkap:</th>
+                    <td id="detail-nama-lengkap"></td>
+                  </tr>
+                  <tr>
+                    <th>Jumlah:</th>
+                    <td id="detail-jumlah"></td>
+                  </tr>
+                  <tr>
+                    <th>Metode:</th>
+                    <td id="detail-metode"></td>
+                  </tr>
+                  <tr>
+                    <th>Status:</th>
+                    <td id="detail-status"></td>
+                  </tr>
+                  <tr>
+                    <th>Tanggal Upload:</th>
+                    <td id="detail-tanggal-upload"></td>
+                  </tr>
+                  <tr>
+                    <th>Tanggal Verifikasi:</th>
+                    <td id="detail-tanggal-verifikasi"></td>
+                  </tr>
+                  <tr>
+                    <th>Verified By:</th>
+                    <td id="detail-verified-by"></td>
+                  </tr>
+                  <tr>
+                    <th>Catatan Admin:</th>
+                    <td id="detail-catatan-admin"></td>
+                  </tr>
+                </table>
+              </div>
+              <div class="col-md-6">
+                <h6 class="mb-3">Bukti Pembayaran:</h6>
+                <div class="text-center">
+                  <img id="detail-bukti-img" src="" alt="Bukti Pembayaran" class="img-fluid rounded shadow" style="max-height: 400px; cursor: pointer;" onclick="window.open(this.src, '_blank')">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              Tutup
+            </button>
+            <button type="button" class="btn btn-success" onclick="openVerifikasiPembayaran('VERIFIED')" id="btnVerifyPayment">
+              <i class="bi bi-check-circle"></i> Terima
+            </button>
+            <button type="button" class="btn btn-danger" onclick="openVerifikasiPembayaran('REJECTED')" id="btnRejectPayment">
+              <i class="bi bi-x-circle"></i> Tolak
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Konfirmasi Verifikasi Pembayaran -->
+    <div class="modal fade" id="verifikasiPembayaranModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="verifikasiPembayaranTitle">
+              Konfirmasi Verifikasi
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" id="verify-nomor-pembayaran">
+            <input type="hidden" id="verify-status">
+            
+            <div class="mb-3">
+              <label class="form-label">Catatan Admin:</label>
+              <textarea class="form-control" id="verify-catatan" rows="3" placeholder="Masukkan catatan (opsional)"></textarea>
+            </div>
+            
+            <div class="alert" id="verify-alert" role="alert"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              Batal
+            </button>
+            <button type="button" class="btn btn-primary" onclick="confirmVerifikasiPembayaran()" id="btnConfirmVerifyPayment">
               Konfirmasi
             </button>
           </div>
@@ -1542,6 +1757,183 @@
         
         // Clean up
         URL.revokeObjectURL(url);
+      }
+
+      // ===================================
+      // PEMBAYARAN FUNCTIONS
+      // ===================================
+      let currentPembayaranData = null;
+
+      async function loadPembayaran() {
+        const tbody = document.getElementById('pembayaranTableBody');
+        const filterStatus = document.getElementById('filterStatusPembayaran').value;
+        
+        try {
+          tbody.innerHTML = '<tr><td colspan="8" class="text-center"><div class="spinner-border text-primary" role="status"></div></td></tr>';
+          
+          const response = await fetch('/api/pembayaran_list');
+          const result = await response.json();
+          
+          if (!response.ok) throw new Error(result.error || 'Gagal load data');
+          
+          let payments = result.data || [];
+          
+          // Filter by status if selected
+          if (filterStatus) {
+            payments = payments.filter(p => p.status_pembayaran === filterStatus);
+          }
+          
+          // Update stats
+          const pending = payments.filter(p => p.status_pembayaran === 'PENDING').length;
+          const verified = payments.filter(p => p.status_pembayaran === 'VERIFIED').length;
+          const rejected = payments.filter(p => p.status_pembayaran === 'REJECTED').length;
+          const revenue = payments.filter(p => p.status_pembayaran === 'VERIFIED').reduce((sum, p) => sum + parseFloat(p.jumlah || 0), 0);
+          
+          document.getElementById('statPending').textContent = pending;
+          document.getElementById('statVerified').textContent = verified;
+          document.getElementById('statRejected').textContent = rejected;
+          document.getElementById('statRevenue').textContent = 'Rp ' + revenue.toLocaleString('id-ID');
+          
+          if (payments.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="8" class="text-center text-muted">Belum ada data pembayaran</td></tr>';
+            return;
+          }
+          
+          tbody.innerHTML = payments.map((payment, index) => {
+            const statusBadge = payment.status_pembayaran === 'VERIFIED' ? 'success' : 
+                                payment.status_pembayaran === 'REJECTED' ? 'danger' : 'warning';
+            const statusText = payment.status_pembayaran === 'VERIFIED' ? 'Verified' : 
+                               payment.status_pembayaran === 'REJECTED' ? 'Rejected' : 'Pending';
+            
+            return `
+              <tr>
+                <td>${index + 1}</td>
+                <td><strong>${payment.nomor_pembayaran || '-'}</strong></td>
+                <td>${payment.nomor_registrasi || '-'}</td>
+                <td>${payment.nama_lengkap || '-'}</td>
+                <td>Rp ${parseFloat(payment.jumlah || 0).toLocaleString('id-ID')}</td>
+                <td><span class="badge bg-${statusBadge}">${statusText}</span></td>
+                <td>${payment.tanggal_upload ? new Date(payment.tanggal_upload).toLocaleDateString('id-ID') : '-'}</td>
+                <td class="table-actions">
+                  <button class="btn btn-sm btn-info" onclick='viewPembayaranDetail(${JSON.stringify(payment)})'>
+                    <i class="bi bi-eye"></i> Detail
+                  </button>
+                </td>
+              </tr>
+            `;
+          }).join('');
+          
+        } catch (error) {
+          console.error('Error loading pembayaran:', error);
+          tbody.innerHTML = '<tr><td colspan="8" class="text-center text-danger">Error: ' + error.message + '</td></tr>';
+        }
+      }
+
+      function viewPembayaranDetail(payment) {
+        currentPembayaranData = payment;
+        
+        document.getElementById('detail-nomor-pembayaran').textContent = payment.nomor_pembayaran || '-';
+        document.getElementById('detail-nomor-registrasi').textContent = payment.nomor_registrasi || '-';
+        document.getElementById('detail-nama-lengkap').textContent = payment.nama_lengkap || '-';
+        document.getElementById('detail-jumlah').textContent = 'Rp ' + parseFloat(payment.jumlah || 0).toLocaleString('id-ID');
+        document.getElementById('detail-metode').textContent = payment.metode_pembayaran || '-';
+        document.getElementById('detail-tanggal-upload').textContent = payment.tanggal_upload ? new Date(payment.tanggal_upload).toLocaleString('id-ID') : '-';
+        document.getElementById('detail-tanggal-verifikasi').textContent = payment.tanggal_verifikasi ? new Date(payment.tanggal_verifikasi).toLocaleString('id-ID') : '-';
+        document.getElementById('detail-verified-by').textContent = payment.verified_by || '-';
+        document.getElementById('detail-catatan-admin').textContent = payment.catatan_admin || '-';
+        
+        const statusBadge = payment.status_pembayaran === 'VERIFIED' ? 'success' : 
+                            payment.status_pembayaran === 'REJECTED' ? 'danger' : 'warning';
+        const statusText = payment.status_pembayaran === 'VERIFIED' ? 'Verified' : 
+                           payment.status_pembayaran === 'REJECTED' ? 'Rejected' : 'Pending';
+        document.getElementById('detail-status').innerHTML = `<span class="badge bg-${statusBadge}">${statusText}</span>`;
+        
+        // Set bukti pembayaran image
+        if (payment.bukti_pembayaran) {
+          document.getElementById('detail-bukti-img').src = payment.bukti_pembayaran;
+          document.getElementById('detail-bukti-img').style.display = 'block';
+        } else {
+          document.getElementById('detail-bukti-img').style.display = 'none';
+        }
+        
+        // Hide verify/reject buttons if already processed
+        const btnVerify = document.getElementById('btnVerifyPayment');
+        const btnReject = document.getElementById('btnRejectPayment');
+        if (payment.status_pembayaran !== 'PENDING') {
+          btnVerify.style.display = 'none';
+          btnReject.style.display = 'none';
+        } else {
+          btnVerify.style.display = 'inline-block';
+          btnReject.style.display = 'inline-block';
+        }
+        
+        new bootstrap.Modal(document.getElementById('detailPembayaranModal')).show();
+      }
+
+      function openVerifikasiPembayaran(status) {
+        if (!currentPembayaranData) return;
+        
+        document.getElementById('verify-nomor-pembayaran').value = currentPembayaranData.nomor_pembayaran;
+        document.getElementById('verify-status').value = status;
+        document.getElementById('verify-catatan').value = '';
+        
+        const title = status === 'VERIFIED' ? 'Terima Pembayaran' : 'Tolak Pembayaran';
+        const alertClass = status === 'VERIFIED' ? 'alert-success' : 'alert-danger';
+        const alertText = status === 'VERIFIED' 
+          ? `Apakah Anda yakin ingin MENERIMA pembayaran dari <strong>${currentPembayaranData.nama_lengkap}</strong>?`
+          : `Apakah Anda yakin ingin MENOLAK pembayaran dari <strong>${currentPembayaranData.nama_lengkap}</strong>?`;
+        
+        document.getElementById('verifikasiPembayaranTitle').textContent = title;
+        document.getElementById('verify-alert').className = 'alert ' + alertClass;
+        document.getElementById('verify-alert').innerHTML = alertText;
+        
+        // Close detail modal
+        bootstrap.Modal.getInstance(document.getElementById('detailPembayaranModal')).hide();
+        
+        // Open verification modal
+        new bootstrap.Modal(document.getElementById('verifikasiPembayaranModal')).show();
+      }
+
+      async function confirmVerifikasiPembayaran() {
+        const nomor = document.getElementById('verify-nomor-pembayaran').value;
+        const status = document.getElementById('verify-status').value;
+        const catatan = document.getElementById('verify-catatan').value;
+        const btn = document.getElementById('btnConfirmVerifyPayment');
+        
+        try {
+          btn.disabled = true;
+          btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Proses...';
+          
+          const response = await fetch('/api/pembayaran_verify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              nomor_pembayaran: nomor,
+              status: status,
+              catatan_admin: catatan,
+              verified_by: localStorage.getItem('adminEmail') || 'admin'
+            })
+          });
+          
+          const result = await response.json();
+          
+          if (!response.ok) throw new Error(result.error || 'Gagal verifikasi');
+          
+          alert('✅ Pembayaran berhasil diverifikasi!');
+          
+          // Close modal
+          bootstrap.Modal.getInstance(document.getElementById('verifikasiPembayaranModal')).hide();
+          
+          // Reload data
+          loadPembayaran();
+          
+        } catch (error) {
+          console.error('Error:', error);
+          alert('❌ Error: ' + error.message);
+        } finally {
+          btn.disabled = false;
+          btn.innerHTML = 'Konfirmasi';
+        }
       }
 
       // Load initial data
