@@ -202,7 +202,6 @@
                       <tr>
                         <th>#</th>
                         <th>Nama</th>
-                        <th>NIK</th>
                         <th>Status</th>
                         <th>Tanggal</th>
                         <th>Aksi</th>
@@ -210,7 +209,7 @@
                     </thead>
                     <tbody id="pendaftarTable">
                       <tr>
-                        <td colspan="6" class="text-center">Loading...</td>
+                        <td colspan="5" class="text-center">Loading...</td>
                       </tr>
                     </tbody>
                   </table>
@@ -639,7 +638,6 @@
               <tr>
                 <td>${i + 1}</td>
                 <td>${item.nama}</td>
-                <td>${item.nik || "-"}</td>
                 <td><span class="badge bg-${
                   item.status === "pending"
                     ? "warning"
@@ -653,7 +651,9 @@
                   "id-ID"
                 )}</td>
                 <td class="table-actions">
-                  <button class="btn btn-sm btn-secondary" onclick="lihatDetail(${item.id})" title="Lihat Detail & Berkas">
+                  <button class="btn btn-sm btn-secondary" onclick="lihatDetail(${
+                    item.id
+                  })" title="Lihat Detail & Berkas">
                     <i class="bi bi-eye"></i>
                   </button>
                   ${
@@ -720,8 +720,8 @@
       async function lihatDetail(id) {
         try {
           // Find pendaftar data from stored array
-          const pendaftar = allPendaftarData.find(p => p.id === id);
-          
+          const pendaftar = allPendaftarData.find((p) => p.id === id);
+
           if (!pendaftar) {
             alert("Data tidak ditemukan");
             return;
@@ -738,23 +738,33 @@
               </div>
               <div class="col-md-6">
                 <strong>Nomor Registrasi:</strong><br>
-                <span class="text-primary">${pendaftar.nomorregistrasi || '-'}</span>
+                <span class="text-primary">${
+                  pendaftar.nomorregistrasi || "-"
+                }</span>
               </div>
               <div class="col-md-6">
                 <strong>Tanggal Daftar:</strong><br>
-                ${pendaftar.createdat ? new Date(pendaftar.createdat).toLocaleString('id-ID') : '-'}
+                ${
+                  pendaftar.createdat
+                    ? new Date(pendaftar.createdat).toLocaleString("id-ID")
+                    : "-"
+                }
               </div>
               <div class="col-md-6">
                 <strong>Status Berkas:</strong><br>
                 <span class="badge bg-${
-                  pendaftar.statusberkas === 'PENDING' ? 'warning' :
-                  pendaftar.statusberkas === 'REVISI' ? 'info' :
-                  pendaftar.statusberkas === 'DITERIMA' ? 'success' : 'danger'
-                }">${pendaftar.statusberkas || 'PENDING'}</span>
+                  pendaftar.statusberkas === "PENDING"
+                    ? "warning"
+                    : pendaftar.statusberkas === "REVISI"
+                    ? "info"
+                    : pendaftar.statusberkas === "DITERIMA"
+                    ? "success"
+                    : "danger"
+                }">${pendaftar.statusberkas || "PENDING"}</span>
               </div>
               <div class="col-md-6">
                 <strong>Alasan/Catatan:</strong><br>
-                ${pendaftar.alasan || '-'}
+                ${pendaftar.alasan || "-"}
               </div>
 
               <!-- Data Calon Santri -->
@@ -765,31 +775,41 @@
               </div>
               <div class="col-md-6">
                 <strong>NIK Calon:</strong><br>
-                ${pendaftar.nikcalon || '-'}
+                ${pendaftar.nikcalon || "-"}
               </div>
               <div class="col-md-6">
                 <strong>NIK Wali:</strong><br>
-                ${pendaftar.nikwali || '-'}
+                ${pendaftar.nikwali || "-"}
               </div>
               <div class="col-md-12">
                 <strong>Nama Lengkap:</strong><br>
-                <span class="fs-5 text-primary">${pendaftar.namalengkap || '-'}</span>
+                <span class="fs-5 text-primary">${
+                  pendaftar.namalengkap || "-"
+                }</span>
               </div>
               <div class="col-md-6">
                 <strong>Tempat Lahir:</strong><br>
-                ${pendaftar.tempatlahir || '-'}
+                ${pendaftar.tempatlahir || "-"}
               </div>
               <div class="col-md-6">
                 <strong>Tanggal Lahir:</strong><br>
-                ${pendaftar.tanggallahir || '-'}
+                ${pendaftar.tanggallahir || "-"}
               </div>
               <div class="col-md-6">
                 <strong>Jenis Kelamin:</strong><br>
-                ${pendaftar.jeniskelamin === 'L' ? 'Laki-laki' : pendaftar.jeniskelamin === 'P' ? 'Perempuan' : '-'}
+                ${
+                  pendaftar.jeniskelamin === "L"
+                    ? "Laki-laki"
+                    : pendaftar.jeniskelamin === "P"
+                    ? "Perempuan"
+                    : "-"
+                }
               </div>
               <div class="col-md-6">
                 <strong>No HP/WhatsApp:</strong><br>
-                <a href="https://wa.me/${pendaftar.nomorhportu}" target="_blank">${pendaftar.nomorhportu || '-'}</a>
+                <a href="https://wa.me/${
+                  pendaftar.nomorhportu
+                }" target="_blank">${pendaftar.nomorhportu || "-"}</a>
               </div>
 
               <!-- Alamat -->
@@ -800,23 +820,23 @@
               </div>
               <div class="col-md-12">
                 <strong>Alamat Jalan:</strong><br>
-                ${pendaftar.alamatjalan || '-'}
+                ${pendaftar.alamatjalan || "-"}
               </div>
               <div class="col-md-6">
                 <strong>Desa:</strong><br>
-                ${pendaftar.desa || '-'}
+                ${pendaftar.desa || "-"}
               </div>
               <div class="col-md-6">
                 <strong>Kecamatan:</strong><br>
-                ${pendaftar.kecamatan || '-'}
+                ${pendaftar.kecamatan || "-"}
               </div>
               <div class="col-md-6">
                 <strong>Kabupaten/Kota:</strong><br>
-                ${pendaftar.kabkota || '-'}
+                ${pendaftar.kabkota || "-"}
               </div>
               <div class="col-md-6">
                 <strong>Provinsi:</strong><br>
-                ${pendaftar.provinsi || '-'}
+                ${pendaftar.provinsi || "-"}
               </div>
 
               <!-- Pendidikan & Rencana -->
@@ -827,19 +847,19 @@
               </div>
               <div class="col-md-6">
                 <strong>Ijazah Formal Terakhir:</strong><br>
-                ${pendaftar.ijazahformalterakhir || '-'}
+                ${pendaftar.ijazahformalterakhir || "-"}
               </div>
               <div class="col-md-6">
                 <strong>Rencana Domisili:</strong><br>
-                ${pendaftar.rencanadomisili || '-'}
+                ${pendaftar.rencanadomisili || "-"}
               </div>
               <div class="col-md-6">
                 <strong>Rencana Tingkat:</strong><br>
-                ${pendaftar.rencanatingkat || '-'}
+                ${pendaftar.rencanatingkat || "-"}
               </div>
               <div class="col-md-6">
                 <strong>Rencana Kelas:</strong><br>
-                ${pendaftar.rencanakelas || '-'}
+                ${pendaftar.rencanakelas || "-"}
               </div>
 
               <!-- Data Orang Tua -->
@@ -850,19 +870,19 @@
               </div>
               <div class="col-md-6">
                 <strong>Nama Ayah:</strong><br>
-                ${pendaftar.namaayah || '-'}
+                ${pendaftar.namaayah || "-"}
               </div>
               <div class="col-md-6">
                 <strong>NIK Ayah:</strong><br>
-                ${pendaftar.nikayah || '-'}
+                ${pendaftar.nikayah || "-"}
               </div>
               <div class="col-md-6">
                 <strong>Nama Ibu:</strong><br>
-                ${pendaftar.namaibu || '-'}
+                ${pendaftar.namaibu || "-"}
               </div>
               <div class="col-md-6">
                 <strong>NIK Ibu:</strong><br>
-                ${pendaftar.nikibu || '-'}
+                ${pendaftar.nikibu || "-"}
               </div>
               
               <!-- Berkas Upload -->
@@ -875,14 +895,22 @@
 
           // Check and display uploaded files
           const files = [
-            { key: 'file_ijazah', label: 'Scan Ijazah', icon: 'file-pdf' },
-            { key: 'file_kk', label: 'Scan Kartu Keluarga (KK)', icon: 'file-pdf' },
-            { key: 'file_akta', label: 'Scan Akta Kelahiran', icon: 'file-pdf' },
-            { key: 'file_foto', label: 'Pas Foto 3x4', icon: 'image' }
+            { key: "file_ijazah", label: "Scan Ijazah", icon: "file-pdf" },
+            {
+              key: "file_kk",
+              label: "Scan Kartu Keluarga (KK)",
+              icon: "file-pdf",
+            },
+            {
+              key: "file_akta",
+              label: "Scan Akta Kelahiran",
+              icon: "file-pdf",
+            },
+            { key: "file_foto", label: "Pas Foto 3x4", icon: "image" },
           ];
 
           let hasFiles = false;
-          files.forEach(file => {
+          files.forEach((file) => {
             const url = pendaftar[file.key];
             if (url) {
               hasFiles = true;
@@ -916,12 +944,13 @@
           html += `</div>`;
 
           // Display in modal
-          document.getElementById('detailContent').innerHTML = html;
-          
-          // Show modal
-          const modal = new bootstrap.Modal(document.getElementById('detailModal'));
-          modal.show();
+          document.getElementById("detailContent").innerHTML = html;
 
+          // Show modal
+          const modal = new bootstrap.Modal(
+            document.getElementById("detailModal")
+          );
+          modal.show();
         } catch (error) {
           alert("Error: " + error.message);
         }
@@ -998,7 +1027,7 @@
               id: parseInt(id),
               status: status,
               alasan: catatan || null,
-              verifiedBy: adminEmail
+              verifiedBy: adminEmail,
             }),
           });
 
