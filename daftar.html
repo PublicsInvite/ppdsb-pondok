@@ -416,7 +416,12 @@
     </div>
 
     <!-- Modal Konfirmasi -->
-    <div class="modal fade" id="konfirmasiModal" tabindex="-1" data-bs-backdrop="static">
+    <div
+      class="modal fade"
+      id="konfirmasiModal"
+      tabindex="-1"
+      data-bs-backdrop="static"
+    >
       <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
           <div class="modal-header bg-success text-white">
@@ -432,15 +437,24 @@
           <div class="modal-body">
             <div class="alert alert-warning">
               <i class="bi bi-exclamation-triangle"></i>
-              <strong>Perhatian!</strong> Pastikan semua data sudah benar sebelum mengirim. Periksa kembali data Anda di bawah ini.
+              <strong>Perhatian!</strong> Pastikan semua data sudah benar
+              sebelum mengirim. Periksa kembali data Anda di bawah ini.
             </div>
             <div id="konfirmasiContent"></div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
               <i class="bi bi-pencil"></i> Edit Data
             </button>
-            <button type="button" class="btn btn-success btn-lg" onclick="submitFinal()">
+            <button
+              type="button"
+              class="btn btn-success btn-lg"
+              onclick="submitFinal()"
+            >
               <i class="bi bi-send"></i> Ya, Kirim Pendaftaran
             </button>
           </div>
@@ -482,26 +496,36 @@
               </h6>
             </div>
             <div class="col-md-6">
-              <strong>NIK Calon:</strong><br>${formData.get('nikCalon') || '-'}
+              <strong>NIK Calon:</strong><br>${formData.get("nikCalon") || "-"}
             </div>
             <div class="col-md-6">
-              <strong>NIK Wali:</strong><br>${formData.get('nikWali') || '-'}
+              <strong>NIK Wali:</strong><br>${formData.get("nikWali") || "-"}
             </div>
             <div class="col-md-6">
-              <strong>No HP/WhatsApp:</strong><br>${formData.get('nomorHPOrtu') || '-'}
+              <strong>No HP/WhatsApp:</strong><br>${
+                formData.get("nomorHPOrtu") || "-"
+              }
             </div>
             <div class="col-md-12">
               <strong>Nama Lengkap:</strong><br>
-              <span class="fs-5 text-primary">${formData.get('namaLengkap') || '-'}</span>
+              <span class="fs-5 text-primary">${
+                formData.get("namaLengkap") || "-"
+              }</span>
             </div>
             <div class="col-md-6">
-              <strong>Tempat Lahir:</strong><br>${formData.get('tempatLahir') || '-'}
+              <strong>Tempat Lahir:</strong><br>${
+                formData.get("tempatLahir") || "-"
+              }
             </div>
             <div class="col-md-6">
-              <strong>Tanggal Lahir:</strong><br>${formData.get('tanggalLahir') || '-'}
+              <strong>Tanggal Lahir:</strong><br>${
+                formData.get("tanggalLahir") || "-"
+              }
             </div>
             <div class="col-md-6">
-              <strong>Jenis Kelamin:</strong><br>${formData.get('jenisKelamin') === 'L' ? 'Laki-laki' : 'Perempuan'}
+              <strong>Jenis Kelamin:</strong><br>${
+                formData.get("jenisKelamin") === "L" ? "Laki-laki" : "Perempuan"
+              }
             </div>
 
             <!-- Alamat -->
@@ -512,7 +536,11 @@
             </div>
             <div class="col-md-12">
               <strong>Alamat Lengkap:</strong><br>
-              ${formData.get('alamatJalan') || '-'}, ${formData.get('desa') || '-'}, ${formData.get('kecamatan') || '-'}, ${formData.get('kabKota') || '-'}, ${formData.get('provinsi') || '-'}
+              ${formData.get("alamatJalan") || "-"}, ${
+          formData.get("desa") || "-"
+        }, ${formData.get("kecamatan") || "-"}, ${
+          formData.get("kabKota") || "-"
+        }, ${formData.get("provinsi") || "-"}
             </div>
 
             <!-- Pendidikan -->
@@ -522,16 +550,24 @@
               </h6>
             </div>
             <div class="col-md-6">
-              <strong>Ijazah Formal Terakhir:</strong><br>${formData.get('ijazahFormalTerakhir') || '-'}
+              <strong>Ijazah Formal Terakhir:</strong><br>${
+                formData.get("ijazahFormalTerakhir") || "-"
+              }
             </div>
             <div class="col-md-6">
-              <strong>Rencana Domisili:</strong><br>${formData.get('rencanaDomisili') || '-'}
+              <strong>Rencana Domisili:</strong><br>${
+                formData.get("rencanaDomisili") || "-"
+              }
             </div>
             <div class="col-md-6">
-              <strong>Rencana Tingkat:</strong><br>${formData.get('rencanaTingkat') || '-'}
+              <strong>Rencana Tingkat:</strong><br>${
+                formData.get("rencanaTingkat") || "-"
+              }
             </div>
             <div class="col-md-6">
-              <strong>Rencana Kelas:</strong><br>${formData.get('rencanaKelas') || '-'}
+              <strong>Rencana Kelas:</strong><br>${
+                formData.get("rencanaKelas") || "-"
+              }
             </div>
 
             <!-- Data Orang Tua -->
@@ -541,16 +577,16 @@
               </h6>
             </div>
             <div class="col-md-6">
-              <strong>Nama Ayah:</strong><br>${formData.get('namaAyah') || '-'}
+              <strong>Nama Ayah:</strong><br>${formData.get("namaAyah") || "-"}
             </div>
             <div class="col-md-6">
-              <strong>NIK Ayah:</strong><br>${formData.get('nikAyah') || '-'}
+              <strong>NIK Ayah:</strong><br>${formData.get("nikAyah") || "-"}
             </div>
             <div class="col-md-6">
-              <strong>Nama Ibu:</strong><br>${formData.get('namaIbu') || '-'}
+              <strong>Nama Ibu:</strong><br>${formData.get("namaIbu") || "-"}
             </div>
             <div class="col-md-6">
-              <strong>NIK Ibu:</strong><br>${formData.get('nikIbu') || '-'}
+              <strong>NIK Ibu:</strong><br>${formData.get("nikIbu") || "-"}
             </div>
 
             <!-- Berkas Upload -->
@@ -562,21 +598,23 @@
         `;
 
         const files = [
-          { key: 'fileIjazah', label: 'Scan Ijazah' },
-          { key: 'fileKK', label: 'Scan KK' },
-          { key: 'fileAkta', label: 'Scan Akta' },
-          { key: 'fileFoto', label: 'Pas Foto' }
+          { key: "fileIjazah", label: "Scan Ijazah" },
+          { key: "fileKK", label: "Scan KK" },
+          { key: "fileAkta", label: "Scan Akta" },
+          { key: "fileFoto", label: "Pas Foto" },
         ];
 
         let hasFiles = false;
-        files.forEach(file => {
+        files.forEach((file) => {
           const uploadedFile = formData.get(file.key);
           if (uploadedFile && uploadedFile.size > 0) {
             hasFiles = true;
             html += `
               <div class="col-md-6">
                 <div class="alert alert-success mb-0">
-                  <i class="bi bi-check-circle"></i> ${file.label}: <strong>${uploadedFile.name}</strong> (${(uploadedFile.size / 1024).toFixed(2)} KB)
+                  <i class="bi bi-check-circle"></i> ${file.label}: <strong>${
+              uploadedFile.name
+            }</strong> (${(uploadedFile.size / 1024).toFixed(2)} KB)
                 </div>
               </div>
             `;
@@ -595,8 +633,8 @@
 
         html += `</div>`;
 
-        document.getElementById('konfirmasiContent').innerHTML = html;
-        new bootstrap.Modal(document.getElementById('konfirmasiModal')).show();
+        document.getElementById("konfirmasiContent").innerHTML = html;
+        new bootstrap.Modal(document.getElementById("konfirmasiModal")).show();
       }
 
       // Function to convert file to base64
@@ -606,10 +644,10 @@
           reader.readAsDataURL(file);
           reader.onload = () => {
             // Remove data:image/png;base64, prefix
-            const base64 = reader.result.split(',')[1];
+            const base64 = reader.result.split(",")[1];
             resolve(base64);
           };
-          reader.onerror = error => reject(error);
+          reader.onerror = (error) => reject(error);
         });
       }
 
@@ -634,7 +672,7 @@
             fileName: file.name,
             fileType: type,
             mimeType: file.type,
-            nomorRegistrasi: nomorRegistrasi
+            nomorRegistrasi: nomorRegistrasi,
           }),
         });
 
@@ -648,13 +686,18 @@
 
       // Function to submit final
       async function submitFinal() {
-        const modal = bootstrap.Modal.getInstance(document.getElementById('konfirmasiModal'));
-        const modalFooter = document.querySelector('#konfirmasiModal .modal-footer');
-        const submitBtn = modalFooter.querySelector('.btn-success');
+        const modal = bootstrap.Modal.getInstance(
+          document.getElementById("konfirmasiModal")
+        );
+        const modalFooter = document.querySelector(
+          "#konfirmasiModal .modal-footer"
+        );
+        const submitBtn = modalFooter.querySelector(".btn-success");
         const originalText = submitBtn.innerHTML;
-        
+
         submitBtn.disabled = true;
-        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Mengirim...';
+        submitBtn.innerHTML =
+          '<span class="spinner-border spinner-border-sm me-2"></span>Mengirim...';
 
         try {
           const formData = formDataGlobal;
@@ -668,7 +711,8 @@
           }
 
           // Step 1: Create pendaftar record first
-          submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Menyimpan data...';
+          submitBtn.innerHTML =
+            '<span class="spinner-border spinner-border-sm me-2"></span>Menyimpan data...';
 
           const res = await fetch("/api/pendaftar_create", {
             method: "POST",
@@ -694,28 +738,45 @@
           const fileUrls = {};
 
           if (fileIjazah?.size > 0) {
-            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Upload ijazah...';
-            fileUrls.file_ijazah = await uploadFile(fileIjazah, "ijazah", nomorRegistrasi);
+            submitBtn.innerHTML =
+              '<span class="spinner-border spinner-border-sm me-2"></span>Upload ijazah...';
+            fileUrls.file_ijazah = await uploadFile(
+              fileIjazah,
+              "ijazah",
+              nomorRegistrasi
+            );
           }
 
           if (fileKK?.size > 0) {
-            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Upload KK...';
+            submitBtn.innerHTML =
+              '<span class="spinner-border spinner-border-sm me-2"></span>Upload KK...';
             fileUrls.file_kk = await uploadFile(fileKK, "kk", nomorRegistrasi);
           }
 
           if (fileAkta?.size > 0) {
-            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Upload akta...';
-            fileUrls.file_akta = await uploadFile(fileAkta, "akta", nomorRegistrasi);
+            submitBtn.innerHTML =
+              '<span class="spinner-border spinner-border-sm me-2"></span>Upload akta...';
+            fileUrls.file_akta = await uploadFile(
+              fileAkta,
+              "akta",
+              nomorRegistrasi
+            );
           }
 
           if (fileFoto?.size > 0) {
-            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Upload foto...';
-            fileUrls.file_foto = await uploadFile(fileFoto, "foto", nomorRegistrasi);
+            submitBtn.innerHTML =
+              '<span class="spinner-border spinner-border-sm me-2"></span>Upload foto...';
+            fileUrls.file_foto = await uploadFile(
+              fileFoto,
+              "foto",
+              nomorRegistrasi
+            );
           }
 
           // Step 3: Update pendaftar with file URLs if any
           if (Object.keys(fileUrls).length > 0) {
-            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Finalisasi...';
+            submitBtn.innerHTML =
+              '<span class="spinner-border spinner-border-sm me-2"></span>Finalisasi...';
 
             const updateRes = await fetch("/api/pendaftar_update_files", {
               method: "POST",
@@ -739,7 +800,6 @@
           form.reset();
           form.classList.remove("was-validated");
           window.scrollTo({ top: 0, behavior: "smooth" });
-
         } catch (error) {
           alert("Error: " + error.message);
         } finally {

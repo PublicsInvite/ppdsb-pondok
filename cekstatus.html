@@ -275,9 +275,15 @@
                         ${
                           data.status === "diterima"
                             ? `
-                            <div class="alert alert-success mt-4 mb-0">
+                            <div class="alert alert-success mt-4">
                                 <i class="bi bi-check-circle"></i>
-                                <strong>Selamat!</strong> Pendaftaran Anda telah diterima. Silakan tunggu informasi lebih lanjut.
+                                <strong>Selamat!</strong> Pendaftaran Anda telah diterima. 
+                            </div>
+                            <div class="d-grid gap-2 mt-3">
+                                <a href="/pembayaran.html?nomor=${encodeURIComponent(data.nomorRegistrasi)}&nama=${encodeURIComponent(data.nama)}" 
+                                   class="btn btn-success btn-lg">
+                                    <i class="bi bi-credit-card"></i> Lanjut ke Pembayaran
+                                </a>
                             </div>
                         `
                             : ""

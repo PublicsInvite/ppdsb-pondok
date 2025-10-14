@@ -5,24 +5,28 @@
 ### 1. **Responsive Design untuk Mobile/Tablet**
 
 #### Mobile Menu
+
 - Tombol menu hamburger muncul di layar mobile (< 768px)
 - Sidebar slide-in dari kiri saat tombol menu diklik
 - Overlay gelap untuk menutup sidebar
 - Auto-close sidebar setelah memilih tab
 
 #### Responsive Cards
+
 - Stat cards sekarang menggunakan `col-6 col-md-3`
 - Di mobile: 2 kartu per baris
 - Di desktop: 4 kartu per baris
 - Ukuran font lebih kecil di mobile
 
 #### Responsive Table
+
 - Table sudah wrapped dalam `table-responsive`
 - Scroll horizontal otomatis di layar kecil
 - Action buttons lebih kecil di mobile
 - Flex layout untuk button actions
 
 #### Modal Enhancements
+
 - Semua modal sekarang `modal-dialog-scrollable`
 - Margin dikurangi di mobile (0.5rem)
 - Scrollable content untuk data panjang
@@ -30,12 +34,15 @@
 ### 2. **Export to CSV**
 
 #### Fitur Export
+
 - Tombol "Export CSV" di atas tabel pendaftar
 - Icon file spreadsheet untuk visual
 - Alert jika tidak ada data
 
 #### Data CSV Lengkap
+
 **25 Kolom yang di-export:**
+
 1. Nomor Registrasi
 2. Tanggal Daftar
 3. Status
@@ -63,6 +70,7 @@
 25. Verifikasi Oleh
 
 #### Format Export
+
 - Format: CSV (Comma-Separated Values)
 - Encoding: UTF-8 with BOM
 - Text fields wrapped dengan quotes
@@ -82,18 +90,20 @@
 .sidebar-overlay.show - Overlay gelap di belakang sidebar mobile
 
 /* Media Queries */
-@media (max-width: 768px) - Breakpoint untuk mobile
+@media (max-width: 768px) - Breakpoint untuk mobile;
 ```
 
 ## 📱 Cara Menggunakan
 
 ### Export CSV:
+
 1. Buka Tab "Data Pendaftar"
 2. Klik tombol "Export CSV" (ikon hijau)
 3. File akan otomatis terdownload
 4. Buka dengan Excel/Google Sheets
 
 ### Mobile Menu:
+
 1. Di layar mobile, lihat tombol "☰ Menu" di kiri atas
 2. Klik untuk buka sidebar
 3. Pilih tab yang diinginkan
@@ -103,11 +113,13 @@
 ## 🧪 Testing
 
 ### Device Testing:
+
 - ✅ Desktop (> 1024px) - Layout normal
 - ✅ Tablet (768px - 1024px) - Responsive cards
 - ✅ Mobile (< 768px) - Menu toggle + small cards
 
 ### Browser Testing:
+
 - ✅ Chrome/Edge - Full support
 - ✅ Firefox - Full support
 - ✅ Safari - Full support
