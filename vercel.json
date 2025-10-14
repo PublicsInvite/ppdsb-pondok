@@ -1,26 +1,16 @@
 {
-  "builds": [
+  "rewrites": [
     {
-      "src": "api/**/*.py",
-      "use": "@vercel/python"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/assets/(.*)",
-      "dest": "/public/assets/$1"
+      "source": "/",
+      "destination": "/public/index.html"
     },
     {
-      "src": "/",
-      "dest": "/public/index.html"
+      "source": "/daftar",
+      "destination": "/public/daftar.html"
     },
     {
-      "src": "/daftar",
-      "dest": "/public/daftar.html"
-    },
-    {
-      "src": "/admin",
-      "dest": "/public/admin.html"
+      "source": "/admin",
+      "destination": "/public/admin.html"
     }
   ]
 }
