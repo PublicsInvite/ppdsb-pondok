@@ -11,49 +11,85 @@ ADD COLUMN IF NOT EXISTS file_kk TEXT,
 ADD COLUMN IF NOT EXISTS file_akta TEXT,
 ADD COLUMN IF NOT EXISTS file_foto TEXT;
 
--- 2. Buat bucket untuk storage (RUN DI SUPABASE DASHBOARD > Storage)
--- Nama bucket: pendaftar-files
--- Public: Yes (agar bisa diakses langsung)
-
--- 3. Create RLS policy untuk storage bucket
--- Run di Supabase SQL Editor setelah bucket dibuat:
-
--- Policy untuk UPLOAD (anon dapat upload)
-INSERT INTO storage.policies (name, bucket_id, definition, operation)
-VALUES (
-  'Allow anon upload',
-  'pendaftar-files',
-  '(role() = ''anon''::text)',
-  'INSERT'
-) ON CONFLICT DO NOTHING;
-
--- Policy untuk READ (public dapat download)
-INSERT INTO storage.policies (name, bucket_id, definition, operation)
-VALUES (
-  'Allow public read',
-  'pendaftar-files',
-  'true',
-  'SELECT'
-) ON CONFLICT DO NOTHING;
-
--- Policy untuk DELETE (service_role dapat delete)
-INSERT INTO storage.policies (name, bucket_id, definition, operation)
-VALUES (
-  'Allow service role delete',
-  'pendaftar-files',
-  '(role() = ''service_role''::text)',
-  'DELETE'
-) ON CONFLICT DO NOTHING;
-
 -- =====================================================
--- CARA SETUP DI SUPABASE DASHBOARD:
+-- CARA SETUP STORAGE BUCKET & POLICIES:
 -- =====================================================
--- 1. Buka Supabase Dashboard
+-- Karena storage policies tidak bisa dibuat via SQL,
+-- setup harus dilakukan di Supabase Dashboard.
+-- =====================================================
+
+-- STEP 1: Buat Storage Bucket
+-- =============================
+-- 1. Buka Supabase Dashboard (https://supabase.com/dashboard)
 -- 2. Pilih project Anda
 -- 3. Klik "Storage" di menu kiri
--- 4. Klik "Create a new bucket"
--- 5. Name: pendaftar-files
--- 6. Public bucket: CENTANG (Yes)
--- 7. Klik "Create bucket"
--- 8. Lalu run SQL ini di SQL Editor
+-- 4. Klik tombol "New bucket"
+-- 5. Isi form:
+--    - Name: pendaftar-files
+--    - Public bucket: CENTANG ✅ (Yes)
+--    - File size limit: 2MB (default)
+--    - Allowed MIME types: (biarkan kosong = semua)
+-- 6. Klik "Create bucket"
+
+-- STEP 2: Setup Policies untuk Bucket
+-- =====================================
+-- Setelah bucket dibuat, klik bucket "pendaftar-files"
+-- Lalu klik tab "Policies"
+
+-- POLICY 1: Allow Public Upload (anon dapat upload)
+-- --------------------------------------------------
+-- Klik "New Policy" > pilih template "Enable upload for users"
+-- Atau buat custom policy:
+--   Policy name: Allow anon upload
+--   Allowed operations: INSERT
+--   Target roles: anon
+--   USING expression: true
+--   WITH CHECK expression: true
+
+-- POLICY 2: Allow Public Read (semua orang bisa download)
+-- --------------------------------------------------------
+-- Klik "New Policy" > pilih template "Enable read access for all users"
+-- Atau buat custom policy:
+--   Policy name: Allow public read
+--   Allowed operations: SELECT
+--   Target roles: anon, authenticated, public
+--   USING expression: true
+
+-- POLICY 3: Allow Service Role Delete (admin bisa hapus)
+-- -------------------------------------------------------
+-- Klik "New Policy" > buat custom policy:
+--   Policy name: Allow service role delete
+--   Allowed operations: DELETE
+--   Target roles: service_role
+--   USING expression: true
+
+-- =====================================================
+-- ALTERNATIF: Setup via SQL (jika policies table ada)
+-- =====================================================
+-- Jika Supabase sudah support, gunakan ini:
+/*
+CREATE POLICY "Allow anon upload"
+ON storage.objects FOR INSERT
+TO anon
+WITH CHECK (bucket_id = 'pendaftar-files');
+
+CREATE POLICY "Allow public read"
+ON storage.objects FOR SELECT
+TO public
+USING (bucket_id = 'pendaftar-files');
+
+CREATE POLICY "Allow service role delete"
+ON storage.objects FOR DELETE
+TO service_role
+USING (bucket_id = 'pendaftar-files');
+*/
+
+-- =====================================================
+-- TESTING:
+-- =====================================================
+-- Setelah setup, test dengan:
+-- 1. Upload file dari form pendaftaran
+-- 2. Cek di Storage > pendaftar-files > lihat file
+-- 3. Klik file > copy URL
+-- 4. Paste URL di browser baru > harus bisa diakses
 -- =====================================================
