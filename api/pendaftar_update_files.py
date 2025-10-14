@@ -38,6 +38,8 @@ class handler(BaseHTTPRequestHandler):
                 update_data["file_akta"] = data["file_akta"]
             if data.get("file_foto"):
                 update_data["file_foto"] = data["file_foto"]
+            if data.get("file_bpjs"):
+                update_data["filebpjs"] = data["file_bpjs"]
 
             if not update_data:
                 self.send_response(400)

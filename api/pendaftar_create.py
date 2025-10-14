@@ -39,6 +39,7 @@ class handler(BaseHTTPRequestHandler):
                 "nikayah": data["nikAyah"].strip(),
                 "namaibu": data["namaIbu"].strip(),
                 "nikibu": data["nikIbu"].strip(),
+                "teleponortu": data.get("teleponOrtu", "").strip(),
                 "statusberkas": "PENDING"  # Set default status UPPERCASE
             }
             

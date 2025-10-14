@@ -199,6 +199,28 @@
                     />
                   </div>
 
+                  <!-- Data Orang Tua -->
+                  <div class="col-12 mt-4">
+                    <h5 class="border-bottom pb-2 mb-3">
+                      Data Orang Tua/Wali
+                    </h5>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label"
+                      >No Telepon Orang Tua/Wali <span class="text-danger">*</span></label
+                    >
+                    <input
+                      type="tel"
+                      class="form-control"
+                      name="teleponOrtu"
+                      placeholder="081234567890"
+                      pattern="[0-9+\-\s()]+"
+                      required
+                    />
+                    <small class="text-muted">Format: 081234567890 atau +62812345678</small>
+                  </div>
+
                   <!-- Pendidikan -->
                   <div class="col-12 mt-4">
                     <h5 class="border-bottom pb-2 mb-3">
@@ -382,6 +404,20 @@
                       accept=".jpg,.jpeg,.png"
                     />
                     <small class="text-muted">JPG atau PNG (max 2MB)</small>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label">
+                      <i class="bi bi-file-medical"></i> Scan Kartu BPJS <span class="text-danger">*</span>
+                    </label>
+                    <input
+                      type="file"
+                      class="form-control"
+                      name="fileBpjs"
+                      accept=".pdf,.jpg,.jpeg,.png"
+                      required
+                    />
+                    <small class="text-muted">PDF, JPG, atau PNG (max 2MB)</small>
                   </div>
                 </div>
 
@@ -773,7 +809,19 @@
             );
           }
 
-          // Step 3: Update pendaftar with file URLs if any
+          // Upload BPJS (required)
+          const fileBpjs = formData.get("fileBpjs");
+          if (fileBpjs?.size > 0) {
+            submitBtn.innerHTML =
+              '<span class="spinner-border spinner-border-sm me-2"></span>Upload BPJS...';
+            fileUrls.file_bpjs = await uploadFile(
+              fileBpjs,
+              "bpjs",
+              nomorRegistrasi
+            );
+          }
+
+          // Step 3: Update pendaftar with file URLs and telepon ortu if any
           if (Object.keys(fileUrls).length > 0) {
             submitBtn.innerHTML =
               '<span class="spinner-border spinner-border-sm me-2"></span>Finalisasi...';
