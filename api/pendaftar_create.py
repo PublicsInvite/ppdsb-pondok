@@ -38,7 +38,8 @@ class handler(BaseHTTPRequestHandler):
                 "namaayah": data["namaAyah"].strip(),
                 "nikayah": data["nikAyah"].strip(),
                 "namaibu": data["namaIbu"].strip(),
-                "nikibu": data["nikIbu"].strip()
+                "nikibu": data["nikIbu"].strip(),
+                "statusberkas": "PENDING"  # Set default status UPPERCASE
             }
             
             # Validasi jenisKelamin

@@ -12,17 +12,22 @@ ADD COLUMN IF NOT EXISTS verifiedat TIMESTAMP WITH TIME ZONE;
 ALTER TABLE pendaftar 
 ADD COLUMN IF NOT EXISTS verifiedby VARCHAR(255);
 
--- 3. Update constraint untuk statusberkas agar include 'revisi'
+-- 3. UPDATE DATA EXISTING: Ubah lowercase ke UPPERCASE dulu
+UPDATE pendaftar 
+SET statusberkas = UPPER(statusberkas) 
+WHERE statusberkas IS NOT NULL;
+
+-- 4. Update constraint untuk statusberkas agar include 'revisi'
 -- Drop constraint lama jika ada
 ALTER TABLE pendaftar 
 DROP CONSTRAINT IF EXISTS pendaftar_statusberkas_check;
 
--- Buat constraint baru dengan status 'revisi'
+-- Buat constraint baru dengan status 'revisi' dalam UPPERCASE
 ALTER TABLE pendaftar 
 ADD CONSTRAINT pendaftar_statusberkas_check 
 CHECK (statusberkas IN ('PENDING', 'DITERIMA', 'DITOLAK', 'REVISI'));
 
--- 4. Set default value untuk statusberkas
+-- 5. Set default value untuk statusberkas
 ALTER TABLE pendaftar 
 ALTER COLUMN statusberkas SET DEFAULT 'PENDING';
 
