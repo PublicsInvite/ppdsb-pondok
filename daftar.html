@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <title>Formulir Pendaftaran</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link href="/assets/css/styles.css" rel="stylesheet" />
+  </head>
+  <body class="bg-light">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg" style="background: #0f9d58">
+      <div class="container">
+        <a class="navbar-brand text-white fw-bold" href="/">🕌 Pondok Kita</a>
+        <a class="btn btn-light" href="/">Kembali</a>
+      </div>
+    </nav>
+
+    <div class="container py-4">
+      <div class="row justify-content-center">
+        <div class="col-lg-10">
+          <div class="card shadow border-0">
+            <div class="card-body p-4 p-md-5">
+              <h1 class="mb-4 text-center" style="color: #0f9d58">
+                Formulir Pendaftaran
+              </h1>
+              <p class="text-center text-muted mb-4">
+                Silakan isi formulir di bawah ini dengan lengkap dan benar
+              </p>
+
+              <form id="formPendaftar" class="needs-validation" novalidate>
+                <div class="row g-3">
+                  <!-- Data Pribadi -->
+                  <div class="col-12">
+                    <h5 class="border-bottom pb-2 mb-3">
+                      Data Pribadi Calon Santri
+                    </h5>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label"
+                      >NIK Calon Santri
+                      <span class="text-danger">*</span></label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="nikCalon"
+                      required
+                      maxlength="16"
+                      pattern="[0-9]{16}"
+                    />
+                    <div class="form-text">16 digit</div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label"
+                      >Nomor KK <span class="text-danger">*</span></label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="kkNo"
+                      required
+                      maxlength="16"
+                      pattern="[0-9]{16}"
+                    />
+                    <div class="form-text">16 digit</div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label">NISN</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="nisn"
+                      maxlength="10"
+                    />
+                    <div class="form-text">Opsional</div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label"
+                      >Nama Lengkap <span class="text-danger">*</span></label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="namaLengkap"
+                      required
+                    />
+                  </div>
+
+                  <div class="col-md-4">
+                    <label class="form-label"
+                      >Tempat Lahir <span class="text-danger">*</span></label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="tempatLahir"
+                      required
+                    />
+                  </div>
+
+                  <div class="col-md-4">
+                    <label class="form-label"
+                      >Tanggal Lahir <span class="text-danger">*</span></label
+                    >
+                    <input
+                      type="date"
+                      class="form-control"
+                      name="tanggalLahir"
+                      required
+                    />
+                  </div>
+
+                  <div class="col-md-4">
+                    <label class="form-label"
+                      >Jenis Kelamin <span class="text-danger">*</span></label
+                    >
+                    <select class="form-select" name="jenisKelamin" required>
+                      <option value="">Pilih...</option>
+                      <option value="L">Laki-laki</option>
+                      <option value="P">Perempuan</option>
+                    </select>
+                  </div>
+
+                  <!-- Alamat -->
+                  <div class="col-12 mt-4">
+                    <h5 class="border-bottom pb-2 mb-3">Alamat</h5>
+                  </div>
+
+                  <div class="col-12">
+                    <label class="form-label"
+                      >Alamat Jalan <span class="text-danger">*</span></label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="alamatJalan"
+                      required
+                    />
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label"
+                      >Desa/Kelurahan <span class="text-danger">*</span></label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="desa"
+                      required
+                    />
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label"
+                      >Kecamatan <span class="text-danger">*</span></label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="kecamatan"
+                      required
+                    />
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label"
+                      >Kota/Kabupaten <span class="text-danger">*</span></label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="kotaKabupaten"
+                      required
+                    />
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label"
+                      >Provinsi <span class="text-danger">*</span></label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="provinsi"
+                      required
+                    />
+                  </div>
+
+                  <!-- Pendidikan -->
+                  <div class="col-12 mt-4">
+                    <h5 class="border-bottom pb-2 mb-3">
+                      Pendidikan & Rencana
+                    </h5>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label"
+                      >Ijazah Formal Terakhir
+                      <span class="text-danger">*</span></label
+                    >
+                    <select
+                      class="form-select"
+                      name="ijazahFormalTerakhir"
+                      required
+                    >
+                      <option value="">Pilih...</option>
+                      <option value="SD">SD/MI</option>
+                      <option value="SMP">SMP/MTs</option>
+                      <option value="SMA">SMA/MA</option>
+                    </select>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label"
+                      >Rencana Domisili
+                      <span class="text-danger">*</span></label
+                    >
+                    <select class="form-select" name="rencanaDomisili" required>
+                      <option value="">Pilih...</option>
+                      <option value="Mukim">Mukim (Tinggal di Pondok)</option>
+                      <option value="Pulang Pergi">Pulang Pergi</option>
+                    </select>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label"
+                      >Rencana Tingkat <span class="text-danger">*</span></label
+                    >
+                    <select class="form-select" name="rencanaTingkat" required>
+                      <option value="">Pilih...</option>
+                      <option value="MTs">MTs (Tsanawiyah)</option>
+                      <option value="MA">MA (Aliyah)</option>
+                    </select>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label"
+                      >Rencana Kelas <span class="text-danger">*</span></label
+                    >
+                    <select class="form-select" name="rencanaKelas" required>
+                      <option value="">Pilih...</option>
+                      <option value="Kelas 1">Kelas 1</option>
+                      <option value="Kelas 2">Kelas 2</option>
+                      <option value="Kelas 3">Kelas 3</option>
+                    </select>
+                  </div>
+
+                  <!-- Data Orang Tua -->
+                  <div class="col-12 mt-4">
+                    <h5 class="border-bottom pb-2 mb-3">Data Orang Tua</h5>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label"
+                      >Nama Ayah <span class="text-danger">*</span></label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="namaAyah"
+                      required
+                    />
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label"
+                      >NIK Ayah <span class="text-danger">*</span></label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="nikAyah"
+                      required
+                      maxlength="16"
+                      pattern="[0-9]{16}"
+                    />
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label"
+                      >Nama Ibu <span class="text-danger">*</span></label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="namaIbu"
+                      required
+                    />
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label"
+                      >NIK Ibu <span class="text-danger">*</span></label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="nikIbu"
+                      required
+                      maxlength="16"
+                      pattern="[0-9]{16}"
+                    />
+                  </div>
+                </div>
+
+                <div class="mt-4 d-flex gap-2">
+                  <button
+                    class="btn btn-lg px-5"
+                    type="submit"
+                    style="background: #0f9d58; color: white"
+                  >
+                    Kirim Pendaftaran
+                  </button>
+                  <a href="/" class="btn btn-outline-secondary btn-lg"
+                    >Kembali</a
+                  >
+                </div>
+              </form>
+
+              <div class="alert alert-success mt-4 d-none" id="suksesBox">
+                <h5 class="alert-heading">Pendaftaran Berhasil! 🎉</h5>
+                <p>Nomor Registrasi Anda: <strong id="regNo"></strong></p>
+                <hr />
+                <p class="mb-0">
+                  Simpan nomor registrasi ini untuk tracking status pendaftaran
+                  Anda.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4 mt-5">
+      <div class="container text-center">
+        <p class="mb-0">&copy; 2025 Pondok Pesantren. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      const form = document.getElementById("formPendaftar");
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        // Validate form
+        if (!form.checkValidity()) {
+          e.stopPropagation();
+          form.classList.add("was-validated");
+          return;
+        }
+
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML =
+          '<span class="spinner-border spinner-border-sm me-2"></span>Mengirim...';
+
+        const data = Object.fromEntries(new FormData(form).entries());
+
+        try {
+          const res = await fetch("/api/pendaftar_create", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+          });
+
+          const json = await res.json();
+
+          if (json.ok) {
+            document.getElementById("regNo").textContent = json.nomorRegistrasi;
+            document.getElementById("suksesBox").classList.remove("d-none");
+            form.reset();
+            form.classList.remove("was-validated");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          } else {
+            alert("Gagal: " + (json.error || "Unknown error"));
+          }
+        } catch (error) {
+          alert("Error: " + error.message);
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalText;
+        }
+      });
+    </script>
+  </body>
+</html>
