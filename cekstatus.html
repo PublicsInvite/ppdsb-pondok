@@ -176,7 +176,8 @@
             loading.style.display = "none";
 
             if (result.success && result.data) {
-              showResult(result.data);
+              // Check payment status
+              checkPaymentStatus(result.data);
             } else {
               showError(
                 result.error ||
@@ -189,7 +190,26 @@
           }
         });
 
-      function showResult(data) {
+      async function checkPaymentStatus(registrationData) {
+        try {
+          // Check if payment exists for this registration
+          const response = await fetch('/api/pembayaran_list');
+          const result = await response.json();
+          
+          if (response.ok && result.data) {
+            // Find payment for this registration number
+            const payment = result.data.find(p => p.nomor_registrasi === registrationData.nomorRegistrasi);
+            showResult(registrationData, payment);
+          } else {
+            showResult(registrationData, null);
+          }
+        } catch (error) {
+          console.error('Error checking payment:', error);
+          showResult(registrationData, null);
+        }
+      }
+
+      function showResult(data, payment) {
         const statusClass =
           data.status === "pending"
             ? "status-pending"
@@ -273,16 +293,112 @@
                         }
 
                         ${
-                          data.status === "diterima"
+                          data.status === "diterima" && !payment
                             ? `
                             <div class="alert alert-success mt-4">
                                 <i class="bi bi-check-circle"></i>
                                 <strong>Selamat!</strong> Pendaftaran Anda telah diterima. 
+                                Silakan lanjutkan ke pembayaran.
                             </div>
                             <div class="d-grid gap-2 mt-3">
-                                <a href="/pembayaran.html?nomor=${encodeURIComponent(data.nomorRegistrasi)}&nama=${encodeURIComponent(data.nama)}" 
+                                <a href="/pembayaran.html?nomor=${encodeURIComponent(
+                                  data.nomorRegistrasi
+                                )}&nama=${encodeURIComponent(data.nama)}" 
                                    class="btn btn-success btn-lg">
                                     <i class="bi bi-credit-card"></i> Lanjut ke Pembayaran
+                                </a>
+                            </div>
+                        `
+                            : ""
+                        }
+
+                        ${
+                          data.status === "diterima" && payment && payment.status_pembayaran === "PENDING"
+                            ? `
+                            <div class="alert alert-warning mt-4">
+                                <i class="bi bi-clock-history"></i>
+                                <strong>Pembayaran Sedang Diproses</strong>
+                                <hr>
+                                <dl class="row mb-0 small">
+                                    <dt class="col-sm-5">Nomor Pembayaran</dt>
+                                    <dd class="col-sm-7"><strong>${payment.nomor_pembayaran}</strong></dd>
+                                    
+                                    <dt class="col-sm-5">Jumlah</dt>
+                                    <dd class="col-sm-7">Rp ${parseFloat(payment.jumlah || 0).toLocaleString('id-ID')}</dd>
+                                    
+                                    <dt class="col-sm-5">Tanggal Upload</dt>
+                                    <dd class="col-sm-7">${new Date(payment.tanggal_upload).toLocaleString('id-ID')}</dd>
+                                    
+                                    <dt class="col-sm-5">Status</dt>
+                                    <dd class="col-sm-7"><span class="badge bg-warning">Menunggu Verifikasi</span></dd>
+                                </dl>
+                                <hr>
+                                <small><i class="bi bi-info-circle"></i> Bukti pembayaran Anda sedang diverifikasi oleh admin. Mohon tunggu maksimal 2x24 jam.</small>
+                            </div>
+                        `
+                            : ""
+                        }
+
+                        ${
+                          data.status === "diterima" && payment && payment.status_pembayaran === "VERIFIED"
+                            ? `
+                            <div class="alert alert-success mt-4">
+                                <i class="bi bi-check-circle-fill"></i>
+                                <strong>🎉 PROSES PENDAFTARAN SELESAI!</strong>
+                                <hr>
+                                <p class="mb-2">Selamat! Semua proses telah selesai:</p>
+                                <ul class="mb-3">
+                                    <li>✅ Pendaftaran: <strong>Diterima</strong></li>
+                                    <li>✅ Pembayaran: <strong>Terverifikasi</strong></li>
+                                </ul>
+                                <dl class="row mb-0 small">
+                                    <dt class="col-sm-5">Nomor Pembayaran</dt>
+                                    <dd class="col-sm-7"><strong>${payment.nomor_pembayaran}</strong></dd>
+                                    
+                                    <dt class="col-sm-5">Jumlah</dt>
+                                    <dd class="col-sm-7">Rp ${parseFloat(payment.jumlah || 0).toLocaleString('id-ID')}</dd>
+                                    
+                                    <dt class="col-sm-5">Tanggal Verifikasi</dt>
+                                    <dd class="col-sm-7">${payment.tanggal_verifikasi ? new Date(payment.tanggal_verifikasi).toLocaleString('id-ID') : '-'}</dd>
+                                    
+                                    <dt class="col-sm-5">Verified By</dt>
+                                    <dd class="col-sm-7">${payment.verified_by || '-'}</dd>
+                                    
+                                    ${payment.catatan_admin ? `
+                                    <dt class="col-sm-5">Catatan Admin</dt>
+                                    <dd class="col-sm-7">${payment.catatan_admin}</dd>
+                                    ` : ''}
+                                </dl>
+                                <hr>
+                                <small><i class="bi bi-envelope"></i> Anda akan segera dihubungi untuk langkah selanjutnya. Terima kasih!</small>
+                            </div>
+                        `
+                            : ""
+                        }
+
+                        ${
+                          data.status === "diterima" && payment && payment.status_pembayaran === "REJECTED"
+                            ? `
+                            <div class="alert alert-danger mt-4">
+                                <i class="bi bi-x-circle"></i>
+                                <strong>Pembayaran Ditolak</strong>
+                                <hr>
+                                <dl class="row mb-0 small">
+                                    <dt class="col-sm-5">Nomor Pembayaran</dt>
+                                    <dd class="col-sm-7"><strong>${payment.nomor_pembayaran}</strong></dd>
+                                    
+                                    <dt class="col-sm-5">Alasan</dt>
+                                    <dd class="col-sm-7">${payment.catatan_admin || 'Bukti pembayaran tidak valid'}</dd>
+                                </dl>
+                                <hr>
+                                <small><i class="bi bi-info-circle"></i> Silakan upload ulang bukti pembayaran yang valid.</small>
+                            </div>
+                            <div class="d-grid gap-2 mt-3">
+                                <a href="/pembayaran.html?nomor=${encodeURIComponent(
+                                  data.nomorRegistrasi
+                                )}&nama=${encodeURIComponent(data.nama)}" 
+                                   class="btn btn-primary btn-lg">
+                                    <i class="bi bi-arrow-repeat"></i> Upload Ulang Bukti Pembayaran
                                 </a>
                             </div>
                         `
