@@ -49,8 +49,6 @@ class handler(BaseHTTPRequestHandler):
             if existing_data:
                 # Update existing payment
                 result = supabase.table('pembayaran').update({
-                    'nomor_rekening': data.get('nomor_rekening', ''),
-                    'nama_rekening': data.get('nama_rekening', ''),
                     'bukti_pembayaran': data['bukti_pembayaran'],
                     'status_pembayaran': 'PENDING',
                     'catatan_admin': data.get('catatan', '')
@@ -73,8 +71,6 @@ class handler(BaseHTTPRequestHandler):
                     'nama_lengkap': data['nama_lengkap'],
                     'jumlah': 500000.00,
                     'metode_pembayaran': 'Transfer Bank BRI',
-                    'nomor_rekening': data.get('nomor_rekening', ''),
-                    'nama_rekening': data.get('nama_rekening', ''),
                     'bukti_pembayaran': data['bukti_pembayaran'],
                     'status_pembayaran': 'PENDING',
                     'catatan_admin': data.get('catatan', '')
