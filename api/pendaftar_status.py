@@ -1,15 +1,14 @@
 from http.server import BaseHTTPRequestHandler
 import json
+from typing import Any, Dict
 from ._supabase import supabase_client
 
 class handler(BaseHTTPRequestHandler):
     def do_PATCH(self):
         """
         PATCH /api/pendaftar_status
-        Body: { id: 123, status: "DITERIMA" | "DITOLAK" | "MENUNGGU_VERIFIKASI", alasan?: "..." }
-        Response: { ok: true }
-        
-        Calls Supabase RPC: pendaftar_set_status(p_id, p_status, p_deskripsi)
+        Body: { id: 123, status: "diterima" | "ditolak" | "pending" | "revisi", alasan?: "...", verifiedBy?: "admin@email.com" }
+        Response: { success: true }
         """
         try:
             # Parse request body
@@ -31,20 +30,21 @@ class handler(BaseHTTPRequestHandler):
             
             p_id = data["id"]
             p_status = data["status"].upper()  # Convert to uppercase
-            p_deskripsi = data.get("alasan", None)
+            p_alasan = data.get("alasan", None)
+            p_verified_by = data.get("verifiedBy", "admin")
             
             # Map lowercase status to uppercase for database
             status_map = {
-                'PENDING': 'MENUNGGU_VERIFIKASI',
+                'PENDING': 'PENDING',
+                'REVISI': 'REVISI',
                 'DITERIMA': 'DITERIMA',
-                'DITOLAK': 'DITOLAK',
-                'MENUNGGU_VERIFIKASI': 'MENUNGGU_VERIFIKASI'
+                'DITOLAK': 'DITOLAK'
             }
             
             p_status = status_map.get(p_status, p_status)
             
             # Validasi status value
-            valid_statuses = ['MENUNGGU_VERIFIKASI', 'DITERIMA', 'DITOLAK']
+            valid_statuses = ['PENDING', 'REVISI', 'DITERIMA', 'DITOLAK']
             if p_status not in valid_statuses:
                 self.send_response(400)
                 self.send_header('Content-Type', 'application/json')
@@ -52,17 +52,28 @@ class handler(BaseHTTPRequestHandler):
                 self.end_headers()
                 self.wfile.write(json.dumps({
                     "success": False,
-                    "error": f"status must be one of: pending, diterima, ditolak"
+                    "error": f"status must be one of: pending, revisi, diterima, ditolak"
                 }).encode())
                 return
             
-            # Call Supabase RPC with service-role
+            # Update dengan service-role
             supa = supabase_client(service_role=True)
-            rpc_result = supa.rpc("pendaftar_set_status", {
-                "p_id": p_id,
-                "p_status": p_status,
-                "p_deskripsi": p_deskripsi
-            }).execute()
+            
+            # Prepare update payload
+            update_payload: Dict[str, Any] = {
+                "statusberkas": p_status,
+            }
+            
+            # Add alasan if provided
+            if p_alasan:
+                update_payload["alasan"] = p_alasan
+            
+            # Add verifiedby for non-pending status
+            if p_status != 'PENDING':
+                update_payload["verifiedby"] = p_verified_by
+            
+            # Execute update
+            result = supa.table("pendaftar").update(update_payload).eq("id", p_id).execute()
             
             # Response success
             self.send_response(200)

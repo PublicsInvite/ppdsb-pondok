@@ -737,6 +737,7 @@
         const id = document.getElementById("verifikasi-id").value;
         const status = document.getElementById("verifikasi-status").value;
         const catatan = document.getElementById("verifikasi-catatan").value;
+        const adminEmail = localStorage.getItem("adminEmail") || "admin";
 
         try {
           const response = await fetch("/api/pendaftar_status", {
@@ -746,6 +747,7 @@
               id: parseInt(id),
               status: status,
               alasan: catatan || null,
+              verifiedBy: adminEmail
             }),
           });
 
