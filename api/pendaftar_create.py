@@ -57,10 +57,10 @@ class handler(BaseHTTPRequestHandler):
             supa = supabase_client(service_role=False)  # Use ANON_KEY
             result = supa.table("pendaftar").insert(payload).execute()
             
-            if not res.data:
+            if not result.data:
                 raise Exception("Failed to create pendaftar")
             
-            result_data = res.data[0]
+            result_data = result.data[0]
             
             # Response success
             self.send_response(201)
