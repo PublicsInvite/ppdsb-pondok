@@ -468,6 +468,38 @@
       </div>
     </div>
 
+    <!-- Modal: Detail Pendaftar & Berkas -->
+    <div class="modal fade" id="detailModal" tabindex="-1">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">
+              <i class="bi bi-person-badge"></i> Detail Pendaftar
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div id="detailContent">
+              <!-- Will be populated by JS -->
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Tutup
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Modal: Verifikasi -->
     <div class="modal fade" id="verifikasiModal" tabindex="-1">
       <div class="modal-dialog">
@@ -597,6 +629,22 @@
           const result = await response.json();
 
           if (result.success && result.data) {
+            // Store full data for detail view
+            allPendaftarData = result.data.map(item => ({
+              id: item.id,
+              nomorRegistrasi: item.no_reg || '-',
+              nikCalon: item.nik || '-',
+              namaLengkap: item.nama || '-',
+              tempatLahir: item.tempat_lahir || '-',
+              tanggalLahir: item.tanggal_lahir || '-',
+              jenisKelamin: item.jenis_kelamin || '-',
+              noHpCalon: item.no_hp || '-',
+              file_ijazah: item.file_ijazah,
+              file_kk: item.file_kk,
+              file_akta: item.file_akta,
+              file_foto: item.file_foto
+            }));
+
             const tbody = document.getElementById("pendaftarTable");
             tbody.innerHTML = result.data
               .map(
@@ -618,6 +666,9 @@
                   "id-ID"
                 )}</td>
                 <td class="table-actions">
+                  <button class="btn btn-sm btn-secondary" onclick="lihatDetail(${item.id})" title="Lihat Detail & Berkas">
+                    <i class="bi bi-eye"></i>
+                  </button>
                   ${
                     item.status === "pending" || item.status === "revisi"
                       ? `
@@ -671,6 +722,110 @@
             alert("Status berhasil diupdate!");
             loadPendaftar();
           }
+        } catch (error) {
+          alert("Error: " + error.message);
+        }
+      }
+
+      // Fungsi untuk melihat detail pendaftar & berkas
+      let allPendaftarData = []; // Store all data for lookup
+
+      async function lihatDetail(id) {
+        try {
+          // Find pendaftar data from stored array
+          const pendaftar = allPendaftarData.find(p => p.id === id);
+          
+          if (!pendaftar) {
+            alert("Data tidak ditemukan");
+            return;
+          }
+
+          // Build detail HTML
+          let html = `
+            <div class="row g-3">
+              <div class="col-md-6">
+                <strong>Nomor Registrasi:</strong><br>
+                ${pendaftar.nomorRegistrasi || '-'}
+              </div>
+              <div class="col-md-6">
+                <strong>NIK:</strong><br>
+                ${pendaftar.nikCalon || '-'}
+              </div>
+              <div class="col-md-12">
+                <strong>Nama Lengkap:</strong><br>
+                ${pendaftar.namaLengkap || '-'}
+              </div>
+              <div class="col-md-6">
+                <strong>Tempat Lahir:</strong><br>
+                ${pendaftar.tempatLahir || '-'}
+              </div>
+              <div class="col-md-6">
+                <strong>Tanggal Lahir:</strong><br>
+                ${pendaftar.tanggalLahir || '-'}
+              </div>
+              <div class="col-md-6">
+                <strong>Jenis Kelamin:</strong><br>
+                ${pendaftar.jenisKelamin || '-'}
+              </div>
+              <div class="col-md-6">
+                <strong>No HP:</strong><br>
+                ${pendaftar.noHpCalon || '-'}
+              </div>
+              
+              <div class="col-12 mt-3">
+                <h6 class="border-bottom pb-2">Berkas Upload</h6>
+              </div>
+          `;
+
+          // Check and display uploaded files
+          const files = [
+            { key: 'file_ijazah', label: 'Scan Ijazah', icon: 'file-pdf' },
+            { key: 'file_kk', label: 'Scan KK', icon: 'file-pdf' },
+            { key: 'file_akta', label: 'Scan Akta', icon: 'file-pdf' },
+            { key: 'file_foto', label: 'Pas Foto', icon: 'image' }
+          ];
+
+          let hasFiles = false;
+          files.forEach(file => {
+            const url = pendaftar[file.key];
+            if (url) {
+              hasFiles = true;
+              html += `
+                <div class="col-md-6">
+                  <div class="card">
+                    <div class="card-body">
+                      <h6 class="card-title">
+                        <i class="bi bi-${file.icon}"></i> ${file.label}
+                      </h6>
+                      <a href="${url}" target="_blank" class="btn btn-sm btn-primary">
+                        <i class="bi bi-download"></i> Download / Lihat
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              `;
+            }
+          });
+
+          if (!hasFiles) {
+            html += `
+              <div class="col-12">
+                <div class="alert alert-info">
+                  <i class="bi bi-info-circle"></i> Tidak ada berkas yang diupload
+                </div>
+              </div>
+            `;
+          }
+
+          html += `</div>`;
+
+          // Display in modal
+          document.getElementById('detailContent').innerHTML = html;
+          
+          // Show modal
+          const modal = new bootstrap.Modal(document.getElementById('detailModal'));
+          modal.show();
+
         } catch (error) {
           alert("Error: " + error.message);
         }
@@ -747,7 +902,7 @@
               id: parseInt(id),
               status: status,
               alasan: catatan || null,
-              verifiedBy: adminEmail,
+              verifiedBy: adminEmail
             }),
           });
 

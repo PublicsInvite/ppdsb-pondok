@@ -309,6 +309,68 @@
                       pattern="[0-9]{16}"
                     />
                   </div>
+
+                  <!-- Upload Berkas -->
+                  <div class="col-12 mt-4">
+                    <h5 class="border-bottom pb-2 mb-3">
+                      <i class="bi bi-file-earmark-arrow-up"></i> Upload Berkas (Opsional)
+                    </h5>
+                    <p class="text-muted small">
+                      Format: PDF, JPG, PNG. Maksimal 2MB per file.
+                    </p>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label">
+                      <i class="bi bi-file-pdf"></i> Scan Ijazah Terakhir
+                    </label>
+                    <input
+                      type="file"
+                      class="form-control"
+                      name="fileIjazah"
+                      accept=".pdf,.jpg,.jpeg,.png"
+                    />
+                    <small class="text-muted">PDF, JPG, atau PNG (max 2MB)</small>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label">
+                      <i class="bi bi-file-pdf"></i> Scan Kartu Keluarga (KK)
+                    </label>
+                    <input
+                      type="file"
+                      class="form-control"
+                      name="fileKK"
+                      accept=".pdf,.jpg,.jpeg,.png"
+                    />
+                    <small class="text-muted">PDF, JPG, atau PNG (max 2MB)</small>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label">
+                      <i class="bi bi-file-pdf"></i> Scan Akta Kelahiran
+                    </label>
+                    <input
+                      type="file"
+                      class="form-control"
+                      name="fileAkta"
+                      accept=".pdf,.jpg,.jpeg,.png"
+                    />
+                    <small class="text-muted">PDF, JPG, atau PNG (max 2MB)</small>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label">
+                      <i class="bi bi-image"></i> Pas Foto 3x4
+                    </label>
+                    <input
+                      type="file"
+                      class="form-control"
+                      name="fileFoto"
+                      accept=".jpg,.jpeg,.png"
+                    />
+                    <small class="text-muted">JPG atau PNG (max 2MB)</small>
+                  </div>
                 </div>
 
                 <div class="mt-4 d-flex gap-2">
@@ -348,8 +410,46 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
+      // Initialize Supabase
+      const SUPABASE_URL = 'https://pislnvhdmsxudltcuuku.supabase.co';
+      const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBpc2xudmhkbXN4dWRsdGN1dWt1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ1MzUzNzYsImV4cCI6MjA2MDExMTM3Nn0.YEBn8v_RR8SkpY5LuqOE2rxb6oGm8Fhc4jh-jf_HnRI';
+      const { createClient } = supabase;
+      const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
       const form = document.getElementById("formPendaftar");
+      
+      // Function to upload file to Supabase Storage
+      async function uploadFile(file, type, nomorRegistrasi) {
+        if (!file) return null;
+        
+        // Validate file size (max 2MB)
+        if (file.size > 2 * 1024 * 1024) {
+          throw new Error(`File ${type} terlalu besar (max 2MB)`);
+        }
+
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${nomorRegistrasi}_${type}_${Date.now()}.${fileExt}`;
+        const filePath = `${nomorRegistrasi}/${fileName}`;
+
+        const { data, error } = await supabaseClient.storage
+          .from('pendaftar-files')
+          .upload(filePath, file, {
+            cacheControl: '3600',
+            upsert: false
+          });
+
+        if (error) throw error;
+
+        // Get public URL
+        const { data: { publicUrl } } = supabaseClient.storage
+          .from('pendaftar-files')
+          .getPublicUrl(filePath);
+
+        return publicUrl;
+      }
+
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
@@ -366,9 +466,21 @@
         submitBtn.innerHTML =
           '<span class="spinner-border spinner-border-sm me-2"></span>Mengirim...';
 
-        const data = Object.fromEntries(new FormData(form).entries());
-
         try {
+          const formData = new FormData(form);
+          const data = {};
+          
+          // Get text data
+          for (let [key, value] of formData.entries()) {
+            if (!key.startsWith('file')) {
+              data[key] = value;
+            }
+          }
+
+          // Step 1: Create pendaftar record first
+          submitBtn.innerHTML =
+            '<span class="spinner-border spinner-border-sm me-2"></span>Menyimpan data...';
+
           const res = await fetch("/api/pendaftar_create", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -377,15 +489,72 @@
 
           const json = await res.json();
 
-          if (json.ok) {
-            document.getElementById("regNo").textContent = json.nomorRegistrasi;
-            document.getElementById("suksesBox").classList.remove("d-none");
-            form.reset();
-            form.classList.remove("was-validated");
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          } else {
-            alert("Gagal: " + (json.error || "Unknown error"));
+          if (!json.ok) {
+            throw new Error(json.error || "Gagal menyimpan data");
           }
+
+          const nomorRegistrasi = json.nomorRegistrasi;
+          const pendaftarId = json.id;
+
+          // Step 2: Upload files if any
+          const fileIjazah = formData.get('fileIjazah');
+          const fileKK = formData.get('fileKK');
+          const fileAkta = formData.get('fileAkta');
+          const fileFoto = formData.get('fileFoto');
+
+          const fileUrls = {};
+
+          if (fileIjazah?.size > 0) {
+            submitBtn.innerHTML =
+              '<span class="spinner-border spinner-border-sm me-2"></span>Upload ijazah...';
+            fileUrls.file_ijazah = await uploadFile(fileIjazah, 'ijazah', nomorRegistrasi);
+          }
+
+          if (fileKK?.size > 0) {
+            submitBtn.innerHTML =
+              '<span class="spinner-border spinner-border-sm me-2"></span>Upload KK...';
+            fileUrls.file_kk = await uploadFile(fileKK, 'kk', nomorRegistrasi);
+          }
+
+          if (fileAkta?.size > 0) {
+            submitBtn.innerHTML =
+              '<span class="spinner-border spinner-border-sm me-2"></span>Upload akta...';
+            fileUrls.file_akta = await uploadFile(fileAkta, 'akta', nomorRegistrasi);
+          }
+
+          if (fileFoto?.size > 0) {
+            submitBtn.innerHTML =
+              '<span class="spinner-border spinner-border-sm me-2"></span>Upload foto...';
+            fileUrls.file_foto = await uploadFile(fileFoto, 'foto', nomorRegistrasi);
+          }
+
+          // Step 3: Update pendaftar with file URLs if any
+          if (Object.keys(fileUrls).length > 0) {
+            submitBtn.innerHTML =
+              '<span class="spinner-border spinner-border-sm me-2"></span>Finalisasi...';
+            
+            const updateRes = await fetch("/api/pendaftar_update_files", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                id: pendaftarId,
+                ...fileUrls
+              }),
+            });
+
+            const updateJson = await updateRes.json();
+            if (!updateJson.ok) {
+              console.warn("Warning: File URLs not saved", updateJson.error);
+            }
+          }
+
+          // Success!
+          document.getElementById("regNo").textContent = nomorRegistrasi;
+          document.getElementById("suksesBox").classList.remove("d-none");
+          form.reset();
+          form.classList.remove("was-validated");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+
         } catch (error) {
           alert("Error: " + error.message);
         } finally {
