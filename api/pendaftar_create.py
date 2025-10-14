@@ -52,9 +52,10 @@ class handler(BaseHTTPRequestHandler):
                 }).encode())
                 return
             
-            # Insert ke Supabase (tabel: pendaftar)
-            supa = supabase_client(service_role=False)
-            res = supa.table("pendaftar").insert(payload).execute()
+                        
+            # Insert to Supabase using ANON_KEY (public registration, allowed by RLS)
+            supa = supabase_client(service_role=False)  # Use ANON_KEY
+            result = supa.table("pendaftar").insert(payload).execute()
             
             if not res.data:
                 raise Exception("Failed to create pendaftar")
