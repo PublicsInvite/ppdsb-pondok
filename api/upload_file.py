@@ -62,12 +62,18 @@ class handler(BaseHTTPRequestHandler):
             )
 
         except Exception as e:
+            error_msg = str(e)
+            
+            # Check if bucket not found error
+            if "Bucket not found" in error_msg or "404" in error_msg:
+                error_msg = "Storage bucket 'pendaftar-files' belum dibuat. Silakan buat bucket terlebih dahulu di Supabase Dashboard > Storage. Lihat file SETUP_STORAGE.txt untuk panduan lengkap."
+            
             self.send_response(500)
             self.send_header("Content-type", "application/json")
             self.send_header("Access-Control-Allow-Origin", "*")
             self.end_headers()
             self.wfile.write(
-                json.dumps({"ok": False, "error": str(e)}).encode()
+                json.dumps({"ok": False, "error": error_msg}).encode()
             )
 
     def do_OPTIONS(self):

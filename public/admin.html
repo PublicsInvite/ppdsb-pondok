@@ -65,12 +65,103 @@
         object-fit: cover;
         border-radius: 8px;
       }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .sidebar {
+          position: fixed;
+          left: -250px;
+          top: 0;
+          z-index: 1050;
+          transition: left 0.3s;
+        }
+
+        .sidebar.show {
+          left: 0;
+        }
+
+        .content-area {
+          padding: 15px;
+          width: 100%;
+        }
+
+        .stat-card h6 {
+          font-size: 0.75rem;
+        }
+
+        .stat-card h3 {
+          font-size: 1.25rem;
+        }
+
+        .table-actions {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 5px;
+        }
+
+        .table-actions button {
+          margin: 0;
+          font-size: 0.75rem;
+          padding: 0.25rem 0.5rem;
+        }
+
+        .modal-dialog {
+          margin: 0.5rem;
+        }
+      }
+
+      /* Mobile Menu Toggle */
+      .mobile-menu-toggle {
+        display: none;
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        z-index: 1040;
+        background: #0f9d58;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      }
+
+      @media (max-width: 768px) {
+        .mobile-menu-toggle {
+          display: block;
+        }
+      }
+
+      /* Sidebar Overlay */
+      .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 1040;
+      }
+
+      @media (max-width: 768px) {
+        .sidebar-overlay.show {
+          display: block;
+        }
+      }
     </style>
   </head>
   <body>
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-menu-toggle" onclick="toggleSidebar()">
+      <i class="bi bi-list"></i> Menu
+    </button>
+
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
     <div class="d-flex">
       <!-- Sidebar -->
-      <div class="sidebar p-3" style="width: 250px">
+      <div class="sidebar p-3" style="width: 250px" id="sidebar">
         <div class="mb-4">
           <h4 class="text-white">
             <i class="bi bi-shield-lock"></i> Admin Panel
@@ -151,50 +242,81 @@
         <div class="content-area">
           <!-- Tab: Pendaftar -->
           <div id="tab-pendaftar" class="tab-content active">
-            <div class="row mb-4">
-              <div class="col-md-2">
+            <!-- Stats Cards -->
+            <div class="row g-3 mb-4">
+              <div class="col-6 col-md-3">
                 <div class="card stat-card border-primary">
                   <div class="card-body">
-                    <h6 class="text-muted">Total</h6>
-                    <h3 class="text-primary" id="totalCount">0</h3>
+                    <h6 class="text-muted small mb-1">Total</h6>
+                    <h3 class="text-primary mb-0" id="totalCount">0</h3>
                   </div>
                 </div>
               </div>
-              <div class="col-md-2">
+              <div class="col-6 col-md-3">
                 <div class="card stat-card border-warning">
                   <div class="card-body">
-                    <h6 class="text-muted">Pending</h6>
-                    <h3 class="text-warning" id="pendingCount">0</h3>
+                    <h6 class="text-muted small mb-1">Pending</h6>
+                    <h3 class="text-warning mb-0" id="pendingCount">0</h3>
                   </div>
                 </div>
               </div>
-              <div class="col-md-2">
+              <div class="col-6 col-md-3">
                 <div class="card stat-card border-info">
                   <div class="card-body">
-                    <h6 class="text-muted">Revisi</h6>
-                    <h3 class="text-info" id="revisiCount">0</h3>
+                    <h6 class="text-muted small mb-1">Revisi</h6>
+                    <h3 class="text-info mb-0" id="revisiCount">0</h3>
                   </div>
                 </div>
               </div>
-              <div class="col-md-3">
+              <div class="col-6 col-md-3">
                 <div class="card stat-card border-success">
                   <div class="card-body">
-                    <h6 class="text-muted">Diterima</h6>
-                    <h3 class="text-success" id="diterimaCount">0</h3>
+                    <h6 class="text-muted small mb-1">Diterima</h6>
+                    <h3 class="text-success mb-0" id="diterimaCount">0</h3>
                   </div>
                 </div>
               </div>
-              <div class="col-md-3">
+              <div class="col-6 col-md-3">
                 <div class="card stat-card border-danger">
                   <div class="card-body">
-                    <h6 class="text-muted">Ditolak</h6>
-                    <h3 class="text-danger" id="ditolakCount">0</h3>
+                    <h6 class="text-muted small mb-1">Ditolak</h6>
+                    <h3 class="text-danger mb-0" id="ditolakCount">0</h3>
                   </div>
                 </div>
               </div>
             </div>
 
+            <!-- Export Button -->
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h5 class="mb-0">Data Pendaftar</h5>
+              <button class="btn btn-success" onclick="exportToCSV()">
+                <i class="bi bi-file-earmark-spreadsheet"></i> Export CSV
+              </button>
+            </div>
+
             <div class="card">
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Nama</th>
+                        <th>Status</th>
+                        <th>Tanggal</th>
+                        <th>Aksi</th>
+                      </tr>
+                    </thead>
+                    <tbody id="pendaftarTable">
+                      <tr>
+                        <td colspan="5" class="text-center">Loading...</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>            <div class="card">
               <div class="card-body">
                 <div class="table-responsive">
                   <table class="table table-hover">
@@ -469,7 +591,7 @@
 
     <!-- Modal: Detail Pendaftar & Berkas -->
     <div class="modal fade" id="detailModal" tabindex="-1">
-      <div class="modal-dialog modal-lg">
+      <div class="modal-dialog modal-lg modal-dialog-scrollable">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">
@@ -501,7 +623,7 @@
 
     <!-- Modal: Verifikasi -->
     <div class="modal fade" id="verifikasiModal" tabindex="-1">
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="verifikasiModalTitle">
@@ -587,6 +709,14 @@
         }
       });
 
+      // Mobile Sidebar Toggle
+      function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.querySelector('.sidebar-overlay');
+        sidebar.classList.toggle('show');
+        overlay.classList.toggle('show');
+      }
+
       // Tab switching
       function switchTab(tab) {
         // Hide all tabs
@@ -613,6 +743,11 @@
           berita: "Berita",
         };
         document.getElementById("pageTitle").textContent = titles[tab];
+
+        // Close sidebar on mobile after tab switch
+        if (window.innerWidth <= 768) {
+          toggleSidebar();
+        }
 
         // Load data
         if (tab === "pendaftar") loadPendaftar();
@@ -1299,6 +1434,95 @@
           localStorage.setItem("beritaData", JSON.stringify(beritaData));
           renderBerita();
         }
+      }
+
+      // Export to CSV function
+      function exportToCSV() {
+        if (allPendaftarData.length === 0) {
+          alert('Tidak ada data untuk di-export');
+          return;
+        }
+
+        // Define CSV headers
+        const headers = [
+          'Nomor Registrasi',
+          'Tanggal Daftar',
+          'Status',
+          'NIK',
+          'Nama Lengkap',
+          'Tempat Lahir',
+          'Tanggal Lahir',
+          'Jenis Kelamin',
+          'No HP',
+          'Alamat Jalan',
+          'Desa',
+          'Kecamatan',
+          'Kabupaten/Kota',
+          'Provinsi',
+          'Ijazah Terakhir',
+          'Sekolah Domisili',
+          'Tingkat',
+          'Kelas',
+          'NIK Ayah',
+          'Nama Ayah',
+          'NIK Ibu',
+          'Nama Ibu',
+          'Catatan Admin',
+          'Tanggal Verifikasi',
+          'Verifikasi Oleh'
+        ];
+
+        // Convert data to CSV rows
+        const csvRows = [headers.join(',')];
+        
+        allPendaftarData.forEach(item => {
+          const row = [
+            item.nomor_registrasi || '',
+            item.tanggal_daftar || '',
+            item.status || '',
+            item.nik || '',
+            `"${item.nama_lengkap || ''}"`,
+            `"${item.tempat_lahir || ''}"`,
+            item.tanggal_lahir || '',
+            item.jenis_kelamin || '',
+            item.no_hp || '',
+            `"${item.alamat_jalan || ''}"`,
+            `"${item.desa || ''}"`,
+            `"${item.kecamatan || ''}"`,
+            `"${item.kab_kota || ''}"`,
+            `"${item.provinsi || ''}"`,
+            `"${item.ijazah_terakhir || ''}"`,
+            `"${item.sekolah_domisili || ''}"`,
+            item.tingkat || '',
+            item.kelas || '',
+            item.nik_ayah || '',
+            `"${item.nama_ayah || ''}"`,
+            item.nik_ibu || '',
+            `"${item.nama_ibu || ''}"`,
+            `"${item.alasan || ''}"`,
+            item.verifiedat || '',
+            `"${item.verifiedby || ''}"`
+          ];
+          csvRows.push(row.join(','));
+        });
+
+        // Create CSV content
+        const csvContent = csvRows.join('\n');
+        
+        // Create blob and download
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        const url = URL.createObjectURL(blob);
+        
+        // Generate filename with current date
+        const date = new Date().toISOString().split('T')[0];
+        link.setAttribute('href', url);
+        link.setAttribute('download', `pendaftar_${date}.csv`);
+        link.style.visibility = 'hidden';
+        
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
       }
 
       // Load initial data
