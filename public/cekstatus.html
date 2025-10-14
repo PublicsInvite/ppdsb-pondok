@@ -193,18 +193,20 @@
       async function checkPaymentStatus(registrationData) {
         try {
           // Check if payment exists for this registration
-          const response = await fetch('/api/pembayaran_list');
+          const response = await fetch("/api/pembayaran_list");
           const result = await response.json();
-          
+
           if (response.ok && result.data) {
             // Find payment for this registration number
-            const payment = result.data.find(p => p.nomor_registrasi === registrationData.nomorRegistrasi);
+            const payment = result.data.find(
+              (p) => p.nomor_registrasi === registrationData.nomorRegistrasi
+            );
             showResult(registrationData, payment);
           } else {
             showResult(registrationData, null);
           }
         } catch (error) {
-          console.error('Error checking payment:', error);
+          console.error("Error checking payment:", error);
           showResult(registrationData, null);
         }
       }
@@ -313,7 +315,9 @@
                         }
 
                         ${
-                          data.status === "diterima" && payment && payment.status_pembayaran === "PENDING"
+                          data.status === "diterima" &&
+                          payment &&
+                          payment.status_pembayaran === "PENDING"
                             ? `
                             <div class="alert alert-warning mt-4">
                                 <i class="bi bi-clock-history"></i>
@@ -321,13 +325,19 @@
                                 <hr>
                                 <dl class="row mb-0 small">
                                     <dt class="col-sm-5">Nomor Pembayaran</dt>
-                                    <dd class="col-sm-7"><strong>${payment.nomor_pembayaran}</strong></dd>
+                                    <dd class="col-sm-7"><strong>${
+                                      payment.nomor_pembayaran
+                                    }</strong></dd>
                                     
                                     <dt class="col-sm-5">Jumlah</dt>
-                                    <dd class="col-sm-7">Rp ${parseFloat(payment.jumlah || 0).toLocaleString('id-ID')}</dd>
+                                    <dd class="col-sm-7">Rp ${parseFloat(
+                                      payment.jumlah || 0
+                                    ).toLocaleString("id-ID")}</dd>
                                     
                                     <dt class="col-sm-5">Tanggal Upload</dt>
-                                    <dd class="col-sm-7">${new Date(payment.tanggal_upload).toLocaleString('id-ID')}</dd>
+                                    <dd class="col-sm-7">${new Date(
+                                      payment.tanggal_upload
+                                    ).toLocaleString("id-ID")}</dd>
                                     
                                     <dt class="col-sm-5">Status</dt>
                                     <dd class="col-sm-7"><span class="badge bg-warning">Menunggu Verifikasi</span></dd>
@@ -340,7 +350,9 @@
                         }
 
                         ${
-                          data.status === "diterima" && payment && payment.status_pembayaran === "VERIFIED"
+                          data.status === "diterima" &&
+                          payment &&
+                          payment.status_pembayaran === "VERIFIED"
                             ? `
                             <div class="alert alert-success mt-4">
                                 <i class="bi bi-check-circle-fill"></i>
@@ -353,21 +365,37 @@
                                 </ul>
                                 <dl class="row mb-0 small">
                                     <dt class="col-sm-5">Nomor Pembayaran</dt>
-                                    <dd class="col-sm-7"><strong>${payment.nomor_pembayaran}</strong></dd>
+                                    <dd class="col-sm-7"><strong>${
+                                      payment.nomor_pembayaran
+                                    }</strong></dd>
                                     
                                     <dt class="col-sm-5">Jumlah</dt>
-                                    <dd class="col-sm-7">Rp ${parseFloat(payment.jumlah || 0).toLocaleString('id-ID')}</dd>
+                                    <dd class="col-sm-7">Rp ${parseFloat(
+                                      payment.jumlah || 0
+                                    ).toLocaleString("id-ID")}</dd>
                                     
                                     <dt class="col-sm-5">Tanggal Verifikasi</dt>
-                                    <dd class="col-sm-7">${payment.tanggal_verifikasi ? new Date(payment.tanggal_verifikasi).toLocaleString('id-ID') : '-'}</dd>
+                                    <dd class="col-sm-7">${
+                                      payment.tanggal_verifikasi
+                                        ? new Date(
+                                            payment.tanggal_verifikasi
+                                          ).toLocaleString("id-ID")
+                                        : "-"
+                                    }</dd>
                                     
                                     <dt class="col-sm-5">Verified By</dt>
-                                    <dd class="col-sm-7">${payment.verified_by || '-'}</dd>
+                                    <dd class="col-sm-7">${
+                                      payment.verified_by || "-"
+                                    }</dd>
                                     
-                                    ${payment.catatan_admin ? `
+                                    ${
+                                      payment.catatan_admin
+                                        ? `
                                     <dt class="col-sm-5">Catatan Admin</dt>
                                     <dd class="col-sm-7">${payment.catatan_admin}</dd>
-                                    ` : ''}
+                                    `
+                                        : ""
+                                    }
                                 </dl>
                                 <hr>
                                 <small><i class="bi bi-envelope"></i> Anda akan segera dihubungi untuk langkah selanjutnya. Terima kasih!</small>
@@ -377,7 +405,9 @@
                         }
 
                         ${
-                          data.status === "diterima" && payment && payment.status_pembayaran === "REJECTED"
+                          data.status === "diterima" &&
+                          payment &&
+                          payment.status_pembayaran === "REJECTED"
                             ? `
                             <div class="alert alert-danger mt-4">
                                 <i class="bi bi-x-circle"></i>
@@ -385,10 +415,15 @@
                                 <hr>
                                 <dl class="row mb-0 small">
                                     <dt class="col-sm-5">Nomor Pembayaran</dt>
-                                    <dd class="col-sm-7"><strong>${payment.nomor_pembayaran}</strong></dd>
+                                    <dd class="col-sm-7"><strong>${
+                                      payment.nomor_pembayaran
+                                    }</strong></dd>
                                     
                                     <dt class="col-sm-5">Alasan</dt>
-                                    <dd class="col-sm-7">${payment.catatan_admin || 'Bukti pembayaran tidak valid'}</dd>
+                                    <dd class="col-sm-7">${
+                                      payment.catatan_admin ||
+                                      "Bukti pembayaran tidak valid"
+                                    }</dd>
                                 </dl>
                                 <hr>
                                 <small><i class="bi bi-info-circle"></i> Silakan upload ulang bukti pembayaran yang valid.</small>
