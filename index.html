@@ -33,13 +33,21 @@
 
       /* Navbar */
       .navbar {
-        background: linear-gradient(135deg, var(--primary-green), var(--dark-green)) !important;
+        background: linear-gradient(
+          135deg,
+          var(--primary-green),
+          var(--dark-green)
+        ) !important;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       }
 
       /* Hero Section */
       .hero-section {
-        background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+        background: linear-gradient(
+          135deg,
+          var(--primary-green),
+          var(--dark-green)
+        );
         color: white;
         padding: 100px 0;
         position: relative;
@@ -326,9 +334,7 @@
       <div class="container hero-content">
         <div class="row align-items-center">
           <div class="col-lg-8 mx-auto text-center" data-aos="fade-up">
-            <h1 class="display-3 fw-bold mb-4">
-              Penerimaan Santri Baru
-            </h1>
+            <h1 class="display-3 fw-bold mb-4">Penerimaan Santri Baru</h1>
             <h2 class="display-6 mb-4">
               Pondok Pesantren Tahun Pelajaran 2025/2026
             </h2>
@@ -437,60 +443,8 @@
           Mengenal lebih dekat tentang lembaga pendidikan Islam kami
         </p>
 
-        <div class="row g-4">
-          <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
-            <div class="card profile-card">
-              <div class="text-center">
-                <i class="bi bi-building profile-icon"></i>
-                <h4 style="color: var(--dark-green)">Lembaga</h4>
-                <p class="text-muted">
-                  Hingga 2025 ini, Yayasan telah memiliki 9 lembaga pendidikan,
-                  baik formal maupun nonformal dengan jumlah total santri 3062
-                  dari berbagai jenjang pendidikan.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
-            <div class="card profile-card">
-              <div class="text-center">
-                <i class="bi bi-geo-alt profile-icon"></i>
-                <h4 style="color: var(--dark-green)">Lokasi</h4>
-                <p class="text-muted">
-                  Jl. Raya Pondok Pesantren No. 123, Kecamatan Bojong Gede,
-                  Kabupaten Bogor, Jawa Barat 16920
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
-            <div class="card profile-card">
-              <div class="text-center">
-                <i class="bi bi-eye profile-icon"></i>
-                <h4 style="color: var(--dark-green)">Visi Misi</h4>
-                <p class="text-muted">
-                  Mewujudkan generasi Qurani yang berakhlakul karimah, berilmu
-                  amaliyah, dan beramal ilmiyah untuk kemajuan agama, nusa, dan
-                  bangsa.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
-            <div class="card profile-card">
-              <div class="text-center">
-                <i class="bi bi-stars profile-icon"></i>
-                <h4 style="color: var(--dark-green)">Fasilitas</h4>
-                <p class="text-muted">
-                  Lembaga Pendidikan ini dilengkapi dengan asrama santri, masjid,
-                  perpustakaan, laboratorium, lapangan olahraga, dan kantin.
-                </p>
-              </div>
-            </div>
-          </div>
+        <div class="row g-4" id="profilContainer">
+          <!-- Loaded from localStorage by JavaScript -->
         </div>
       </div>
     </section>
@@ -503,70 +457,8 @@
           Pencapaian membanggakan santri kami
         </p>
 
-        <div class="row g-4">
-          <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
-            <div class="prestasi-card">
-              <img
-                src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400"
-                alt="Prestasi"
-                class="prestasi-img"
-              />
-              <div class="prestasi-body">
-                <h5>Juara 1 Lomba Tahfidz</h5>
-                <p class="text-muted small">
-                  Santri kami meraih juara 1 lomba tahfidz tingkat provinsi 2025
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
-            <div class="prestasi-card">
-              <img
-                src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=400"
-                alt="Prestasi"
-                class="prestasi-img"
-              />
-              <div class="prestasi-body">
-                <h5>Juara 2 Olimpiade Matematika</h5>
-                <p class="text-muted small">
-                  M. Rizki siswa kelas VIII juara 2 Olimpiade Matematika 2025
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
-            <div class="prestasi-card">
-              <img
-                src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=400"
-                alt="Prestasi"
-                class="prestasi-img"
-              />
-              <div class="prestasi-body">
-                <h5>Juara 2 Lomba IPA</h5>
-                <p class="text-muted small">
-                  Siti Aisyah siswi kelas IX juara 2 Olimpiade IPA 2025
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
-            <div class="prestasi-card">
-              <img
-                src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=400"
-                alt="Prestasi"
-                class="prestasi-img"
-              />
-              <div class="prestasi-body">
-                <h5>Juara 3 Lomba Kaligrafi</h5>
-                <p class="text-muted small">
-                  Ahmad kelas VII juara 3 lomba kaligrafi tingkat kabupaten 2025
-                </p>
-              </div>
-            </div>
-          </div>
+        <div class="row g-4" id="prestasiContainer">
+          <!-- Loaded from localStorage by JavaScript -->
         </div>
       </div>
     </section>
@@ -579,75 +471,8 @@
           Kabar terbaru dari pondok pesantren
         </p>
 
-        <div class="row g-4">
-          <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
-            <div class="berita-card">
-              <img
-                src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400"
-                alt="Berita"
-                class="berita-img"
-              />
-              <div class="berita-body">
-                <div class="berita-date mb-2">
-                  <i class="bi bi-calendar-event"></i> 16 Jun 2025
-                </div>
-                <h5>Gelar Tasyakuran Kelulusan Angkatan Ke-20</h5>
-                <p class="text-muted small">
-                  Pondok Pesantren menggelar tasyakuran kelulusan angkatan ke-20
-                  dengan penuh khidmat dan penuh makna...
-                </p>
-                <a href="#" class="btn btn-sm btn-outline-success">
-                  Baca Selengkapnya <i class="bi bi-arrow-right"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
-            <div class="berita-card">
-              <img
-                src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=400"
-                alt="Berita"
-                class="berita-img"
-              />
-              <div class="berita-body">
-                <div class="berita-date mb-2">
-                  <i class="bi bi-calendar-event"></i> 14 May 2025
-                </div>
-                <h5>Lulus MA Lanjut ke Perguruan Tinggi</h5>
-                <p class="text-muted small">
-                  Madrasah Aliyah gelar Purna Siswa Angkatan Ke-25. Sebanyak 95%
-                  lulusan melanjutkan ke perguruan tinggi...
-                </p>
-                <a href="#" class="btn btn-sm btn-outline-success">
-                  Baca Selengkapnya <i class="bi bi-arrow-right"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
-            <div class="berita-card">
-              <img
-                src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=400"
-                alt="Berita"
-                class="berita-img"
-              />
-              <div class="berita-body">
-                <div class="berita-date mb-2">
-                  <i class="bi bi-calendar-event"></i> 26 Feb 2025
-                </div>
-                <h5>Pengumuman Lolos Seleksi PSB</h5>
-                <p class="text-muted small">
-                  Selamat kepada seluruh pendaftar yang lolos seleksi Penerimaan
-                  Santri Baru tahun pelajaran 2025/2026...
-                </p>
-                <a href="#" class="btn btn-sm btn-outline-success">
-                  Baca Selengkapnya <i class="bi bi-arrow-right"></i>
-                </a>
-              </div>
-            </div>
-          </div>
+        <div class="row g-4" id="beritaContainer">
+          <!-- Loaded from localStorage by JavaScript -->
         </div>
       </div>
     </section>
@@ -740,6 +565,246 @@
             });
           }
         });
+      });
+
+      // Load Profil Data
+      function loadProfilData() {
+        const profilData = JSON.parse(localStorage.getItem("profilData") || "[]");
+        const container = document.getElementById("profilContainer");
+
+        if (profilData.length === 0) {
+          // Default data
+          const defaultProfil = [
+            {
+              icon: "bi-building",
+              judul: "Lembaga",
+              deskripsi:
+                "Hingga 2025 ini, Yayasan telah memiliki 9 lembaga pendidikan, baik formal maupun nonformal dengan jumlah total santri 3062 dari berbagai jenjang pendidikan.",
+            },
+            {
+              icon: "bi-geo-alt",
+              judul: "Lokasi",
+              deskripsi:
+                "Jl. Raya Pondok Pesantren No. 123, Kecamatan Bojong Gede, Kabupaten Bogor, Jawa Barat 16920",
+            },
+            {
+              icon: "bi-eye",
+              judul: "Visi Misi",
+              deskripsi:
+                "Mewujudkan generasi Qurani yang berakhlakul karimah, berilmu amaliyah, dan beramal ilmiyah untuk kemajuan agama, nusa, dan bangsa.",
+            },
+            {
+              icon: "bi-stars",
+              judul: "Fasilitas",
+              deskripsi:
+                "Lembaga Pendidikan ini dilengkapi dengan asrama santri, masjid, perpustakaan, laboratorium, lapangan olahraga, dan kantin.",
+            },
+          ];
+          container.innerHTML = defaultProfil
+            .map(
+              (item, i) => `
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="${
+              (i + 1) * 100
+            }">
+              <div class="card profile-card">
+                <div class="text-center">
+                  <i class="bi ${item.icon} profile-icon"></i>
+                  <h4 style="color: var(--dark-green)">${item.judul}</h4>
+                  <p class="text-muted">${item.deskripsi}</p>
+                </div>
+              </div>
+            </div>
+          `
+            )
+            .join("");
+        } else {
+          container.innerHTML = profilData
+            .map(
+              (item, i) => `
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="${
+              (i + 1) * 100
+            }">
+              <div class="card profile-card">
+                <div class="text-center">
+                  <i class="bi ${item.icon} profile-icon"></i>
+                  <h4 style="color: var(--dark-green)">${item.judul}</h4>
+                  <p class="text-muted">${item.deskripsi}</p>
+                </div>
+              </div>
+            </div>
+          `
+            )
+            .join("");
+        }
+      }
+
+      // Load Prestasi Data
+      function loadPrestasiData() {
+        const prestasiData = JSON.parse(
+          localStorage.getItem("prestasiData") || "[]"
+        );
+        const container = document.getElementById("prestasiContainer");
+
+        if (prestasiData.length === 0) {
+          // Default data
+          const defaultPrestasi = [
+            {
+              judul: "Juara 1 Lomba Tahfidz",
+              deskripsi:
+                "Santri kami meraih juara 1 lomba tahfidz tingkat provinsi 2025",
+              gambar:
+                "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400",
+            },
+            {
+              judul: "Juara 2 Olimpiade Matematika",
+              deskripsi:
+                "M. Rizki siswa kelas VIII juara 2 Olimpiade Matematika 2025",
+              gambar:
+                "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=400",
+            },
+            {
+              judul: "Juara 2 Lomba IPA",
+              deskripsi:
+                "Siti Aisyah siswi kelas IX juara 2 Olimpiade IPA 2025",
+              gambar:
+                "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=400",
+            },
+            {
+              judul: "Juara 3 Lomba Kaligrafi",
+              deskripsi:
+                "Ahmad kelas VII juara 3 lomba kaligrafi tingkat kabupaten 2025",
+              gambar:
+                "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=400",
+            },
+          ];
+          container.innerHTML = defaultPrestasi
+            .map(
+              (item, i) => `
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="${
+              (i + 1) * 100
+            }">
+              <div class="prestasi-card">
+                <img src="${item.gambar}" alt="Prestasi" class="prestasi-img" />
+                <div class="prestasi-body">
+                  <h5>${item.judul}</h5>
+                  <p class="text-muted small">${item.deskripsi}</p>
+                </div>
+              </div>
+            </div>
+          `
+            )
+            .join("");
+        } else {
+          container.innerHTML = prestasiData
+            .map(
+              (item, i) => `
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="${
+              (i + 1) * 100
+            }">
+              <div class="prestasi-card">
+                <img src="${item.gambar}" alt="Prestasi" class="prestasi-img" />
+                <div class="prestasi-body">
+                  <h5>${item.judul}</h5>
+                  <p class="text-muted small">${item.deskripsi}</p>
+                </div>
+              </div>
+            </div>
+          `
+            )
+            .join("");
+        }
+      }
+
+      // Load Berita Data
+      function loadBeritaData() {
+        const beritaData = JSON.parse(
+          localStorage.getItem("beritaData") || "[]"
+        );
+        const container = document.getElementById("beritaContainer");
+
+        if (beritaData.length === 0) {
+          // Default data
+          const defaultBerita = [
+            {
+              judul: "Gelar Tasyakuran Kelulusan Angkatan Ke-20",
+              tanggal: "16 Jun 2025",
+              ringkasan:
+                "Pondok Pesantren menggelar tasyakuran kelulusan angkatan ke-20 dengan penuh khidmat dan penuh makna...",
+              gambar:
+                "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400",
+            },
+            {
+              judul: "Lulus MA Lanjut ke Perguruan Tinggi",
+              tanggal: "14 May 2025",
+              ringkasan:
+                "Madrasah Aliyah gelar Purna Siswa Angkatan Ke-25. Sebanyak 95% lulusan melanjutkan ke perguruan tinggi...",
+              gambar:
+                "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=400",
+            },
+            {
+              judul: "Pengumuman Lolos Seleksi PSB",
+              tanggal: "26 Feb 2025",
+              ringkasan:
+                "Selamat kepada seluruh pendaftar yang lolos seleksi Penerimaan Santri Baru tahun pelajaran 2025/2026...",
+              gambar:
+                "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=400",
+            },
+          ];
+          container.innerHTML = defaultBerita
+            .map(
+              (item, i) => `
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="${
+              (i + 1) * 100
+            }">
+              <div class="berita-card">
+                <img src="${item.gambar}" alt="Berita" class="berita-img" />
+                <div class="berita-body">
+                  <div class="berita-date mb-2">
+                    <i class="bi bi-calendar-event"></i> ${item.tanggal}
+                  </div>
+                  <h5>${item.judul}</h5>
+                  <p class="text-muted small">${item.ringkasan}</p>
+                  <a href="#" class="btn btn-sm btn-outline-success">
+                    Baca Selengkapnya <i class="bi bi-arrow-right"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          `
+            )
+            .join("");
+        } else {
+          container.innerHTML = beritaData
+            .map(
+              (item, i) => `
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="${
+              (i + 1) * 100
+            }">
+              <div class="berita-card">
+                <img src="${item.gambar}" alt="Berita" class="berita-img" />
+                <div class="berita-body">
+                  <div class="berita-date mb-2">
+                    <i class="bi bi-calendar-event"></i> ${item.tanggal}
+                  </div>
+                  <h5>${item.judul}</h5>
+                  <p class="text-muted small">${item.ringkasan}</p>
+                  <a href="#" class="btn btn-sm btn-outline-success">
+                    Baca Selengkapnya <i class="bi bi-arrow-right"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          `
+            )
+            .join("");
+        }
+      }
+
+      // Load all data on page load
+      document.addEventListener("DOMContentLoaded", function () {
+        loadProfilData();
+        loadPrestasiData();
+        loadBeritaData();
       });
     </script>
   </body>

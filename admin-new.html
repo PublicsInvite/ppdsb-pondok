@@ -152,27 +152,19 @@
           <!-- Tab: Pendaftar -->
           <div id="tab-pendaftar" class="tab-content active">
             <div class="row mb-4">
-              <div class="col-md-2">
+              <div class="col-md-3">
                 <div class="card stat-card border-primary">
                   <div class="card-body">
-                    <h6 class="text-muted">Total</h6>
+                    <h6 class="text-muted">Total Pendaftar</h6>
                     <h3 class="text-primary" id="totalCount">0</h3>
                   </div>
                 </div>
               </div>
-              <div class="col-md-2">
+              <div class="col-md-3">
                 <div class="card stat-card border-warning">
                   <div class="card-body">
                     <h6 class="text-muted">Pending</h6>
                     <h3 class="text-warning" id="pendingCount">0</h3>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="card stat-card border-info">
-                  <div class="card-body">
-                    <h6 class="text-muted">Revisi</h6>
-                    <h3 class="text-info" id="revisiCount">0</h3>
                   </div>
                 </div>
               </div>
@@ -468,61 +460,6 @@
       </div>
     </div>
 
-    <!-- Modal: Verifikasi -->
-    <div class="modal fade" id="verifikasiModal" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="verifikasiModalTitle">Verifikasi Pendaftar</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <form id="verifikasiForm">
-              <input type="hidden" id="verifikasi-id" />
-              <input type="hidden" id="verifikasi-status" />
-              
-              <div class="mb-3">
-                <label class="form-label">Status Verifikasi</label>
-                <input type="text" class="form-control" id="verifikasi-status-display" readonly />
-              </div>
-              
-              <div class="mb-3" id="catatanContainer">
-                <label class="form-label" id="catatanLabel">Catatan</label>
-                <textarea
-                  class="form-control"
-                  id="verifikasi-catatan"
-                  rows="4"
-                  placeholder="Masukkan catatan..."
-                ></textarea>
-                <small class="text-muted">Opsional: Berikan alasan atau catatan untuk keputusan ini</small>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Batal
-            </button>
-            <button
-              type="button"
-              class="btn btn-primary"
-              onclick="confirmVerifikasi()"
-              id="btnConfirmVerifikasi"
-            >
-              Konfirmasi
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -598,8 +535,6 @@
                 <td><span class="badge bg-${
                   item.status === "pending"
                     ? "warning"
-                    : item.status === "revisi"
-                    ? "info"
                     : item.status === "diterima"
                     ? "success"
                     : "danger"
@@ -607,21 +542,18 @@
                 <td>${new Date(item.created_at).toLocaleDateString(
                   "id-ID"
                 )}</td>
-                <td class="table-actions">
+                <td>
                   ${
-                    item.status === "pending" || item.status === "revisi"
+                    item.status === "pending"
                       ? `
-                    <button class="btn btn-sm btn-success" onclick="openVerifikasiModal(${item.id}, 'diterima')" title="Terima">
-                      <i class="bi bi-check-circle"></i>
+                    <button class="btn btn-sm btn-success" onclick="updateStatus(${item.id}, 'diterima')">
+                      <i class="bi bi-check"></i>
                     </button>
-                    <button class="btn btn-sm btn-info" onclick="openVerifikasiModal(${item.id}, 'revisi')" title="Revisi">
-                      <i class="bi bi-arrow-repeat"></i>
-                    </button>
-                    <button class="btn btn-sm btn-danger" onclick="openVerifikasiModal(${item.id}, 'ditolak')" title="Tolak">
-                      <i class="bi bi-x-circle"></i>
+                    <button class="btn btn-sm btn-danger" onclick="updateStatus(${item.id}, 'ditolak')">
+                      <i class="bi bi-x"></i>
                     </button>
                   `
-                      : `<span class="badge bg-secondary">Selesai</span>`
+                      : ""
                   }
                 </td>
               </tr>
@@ -634,8 +566,6 @@
               result.data.length;
             document.getElementById("pendingCount").textContent =
               result.data.filter((d) => d.status === "pending").length;
-            document.getElementById("revisiCount").textContent =
-              result.data.filter((d) => d.status === "revisi").length;
             document.getElementById("diterimaCount").textContent =
               result.data.filter((d) => d.status === "diterima").length;
             document.getElementById("ditolakCount").textContent =
@@ -660,82 +590,6 @@
           if (result.success) {
             alert("Status berhasil diupdate!");
             loadPendaftar();
-          }
-        } catch (error) {
-          alert("Error: " + error.message);
-        }
-      }
-
-      // Fungsi untuk membuka modal verifikasi
-      function openVerifikasiModal(id, status) {
-        document.getElementById("verifikasi-id").value = id;
-        document.getElementById("verifikasi-status").value = status;
-        
-        // Update tampilan berdasarkan status
-        const statusText = {
-          'diterima': 'Diterima',
-          'revisi': 'Perlu Revisi',
-          'ditolak': 'Ditolak'
-        };
-        
-        const statusColors = {
-          'diterima': 'success',
-          'revisi': 'info',
-          'ditolak': 'danger'
-        };
-        
-        document.getElementById("verifikasiModalTitle").textContent = `Verifikasi: ${statusText[status]}`;
-        document.getElementById("verifikasi-status-display").value = statusText[status];
-        document.getElementById("verifikasi-status-display").className = `form-control bg-${statusColors[status]} text-white`;
-        
-        // Update label catatan
-        if (status === 'revisi') {
-          document.getElementById("catatanLabel").textContent = "Catatan Revisi";
-          document.getElementById("verifikasi-catatan").placeholder = "Jelaskan apa yang perlu direvisi...";
-        } else if (status === 'ditolak') {
-          document.getElementById("catatanLabel").textContent = "Alasan Penolakan";
-          document.getElementById("verifikasi-catatan").placeholder = "Jelaskan alasan penolakan...";
-        } else {
-          document.getElementById("catatanLabel").textContent = "Catatan";
-          document.getElementById("verifikasi-catatan").placeholder = "Tambahkan catatan (opsional)...";
-        }
-        
-        // Update button color
-        const btnConfirm = document.getElementById("btnConfirmVerifikasi");
-        btnConfirm.className = `btn btn-${statusColors[status]}`;
-        btnConfirm.textContent = statusText[status];
-        
-        // Reset catatan
-        document.getElementById("verifikasi-catatan").value = "";
-        
-        // Show modal
-        new bootstrap.Modal(document.getElementById("verifikasiModal")).show();
-      }
-
-      // Fungsi untuk konfirmasi verifikasi
-      async function confirmVerifikasi() {
-        const id = document.getElementById("verifikasi-id").value;
-        const status = document.getElementById("verifikasi-status").value;
-        const catatan = document.getElementById("verifikasi-catatan").value;
-
-        try {
-          const response = await fetch("/api/pendaftar_status", {
-            method: "PATCH",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ 
-              id: parseInt(id), 
-              status: status,
-              alasan: catatan || null
-            }),
-          });
-
-          const result = await response.json();
-          if (result.success) {
-            bootstrap.Modal.getInstance(document.getElementById("verifikasiModal")).hide();
-            alert(`Status berhasil diubah menjadi "${status}"!`);
-            loadPendaftar();
-          } else {
-            alert("Error: " + (result.error || "Gagal mengubah status"));
           }
         } catch (error) {
           alert("Error: " + error.message);
