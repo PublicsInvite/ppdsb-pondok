@@ -473,7 +473,9 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="verifikasiModalTitle">Verifikasi Pendaftar</h5>
+            <h5 class="modal-title" id="verifikasiModalTitle">
+              Verifikasi Pendaftar
+            </h5>
             <button
               type="button"
               class="btn-close"
@@ -484,12 +486,17 @@
             <form id="verifikasiForm">
               <input type="hidden" id="verifikasi-id" />
               <input type="hidden" id="verifikasi-status" />
-              
+
               <div class="mb-3">
                 <label class="form-label">Status Verifikasi</label>
-                <input type="text" class="form-control" id="verifikasi-status-display" readonly />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="verifikasi-status-display"
+                  readonly
+                />
               </div>
-              
+
               <div class="mb-3" id="catatanContainer">
                 <label class="form-label" id="catatanLabel">Catatan</label>
                 <textarea
@@ -498,7 +505,10 @@
                   rows="4"
                   placeholder="Masukkan catatan..."
                 ></textarea>
-                <small class="text-muted">Opsional: Berikan alasan atau catatan untuk keputusan ini</small>
+                <small class="text-muted"
+                  >Opsional: Berikan alasan atau catatan untuk keputusan
+                  ini</small
+                >
               </div>
             </form>
           </div>
@@ -670,44 +680,54 @@
       function openVerifikasiModal(id, status) {
         document.getElementById("verifikasi-id").value = id;
         document.getElementById("verifikasi-status").value = status;
-        
+
         // Update tampilan berdasarkan status
         const statusText = {
-          'diterima': 'Diterima',
-          'revisi': 'Perlu Revisi',
-          'ditolak': 'Ditolak'
+          diterima: "Diterima",
+          revisi: "Perlu Revisi",
+          ditolak: "Ditolak",
         };
-        
+
         const statusColors = {
-          'diterima': 'success',
-          'revisi': 'info',
-          'ditolak': 'danger'
+          diterima: "success",
+          revisi: "info",
+          ditolak: "danger",
         };
-        
-        document.getElementById("verifikasiModalTitle").textContent = `Verifikasi: ${statusText[status]}`;
-        document.getElementById("verifikasi-status-display").value = statusText[status];
-        document.getElementById("verifikasi-status-display").className = `form-control bg-${statusColors[status]} text-white`;
-        
+
+        document.getElementById(
+          "verifikasiModalTitle"
+        ).textContent = `Verifikasi: ${statusText[status]}`;
+        document.getElementById("verifikasi-status-display").value =
+          statusText[status];
+        document.getElementById(
+          "verifikasi-status-display"
+        ).className = `form-control bg-${statusColors[status]} text-white`;
+
         // Update label catatan
-        if (status === 'revisi') {
-          document.getElementById("catatanLabel").textContent = "Catatan Revisi";
-          document.getElementById("verifikasi-catatan").placeholder = "Jelaskan apa yang perlu direvisi...";
-        } else if (status === 'ditolak') {
-          document.getElementById("catatanLabel").textContent = "Alasan Penolakan";
-          document.getElementById("verifikasi-catatan").placeholder = "Jelaskan alasan penolakan...";
+        if (status === "revisi") {
+          document.getElementById("catatanLabel").textContent =
+            "Catatan Revisi";
+          document.getElementById("verifikasi-catatan").placeholder =
+            "Jelaskan apa yang perlu direvisi...";
+        } else if (status === "ditolak") {
+          document.getElementById("catatanLabel").textContent =
+            "Alasan Penolakan";
+          document.getElementById("verifikasi-catatan").placeholder =
+            "Jelaskan alasan penolakan...";
         } else {
           document.getElementById("catatanLabel").textContent = "Catatan";
-          document.getElementById("verifikasi-catatan").placeholder = "Tambahkan catatan (opsional)...";
+          document.getElementById("verifikasi-catatan").placeholder =
+            "Tambahkan catatan (opsional)...";
         }
-        
+
         // Update button color
         const btnConfirm = document.getElementById("btnConfirmVerifikasi");
         btnConfirm.className = `btn btn-${statusColors[status]}`;
         btnConfirm.textContent = statusText[status];
-        
+
         // Reset catatan
         document.getElementById("verifikasi-catatan").value = "";
-        
+
         // Show modal
         new bootstrap.Modal(document.getElementById("verifikasiModal")).show();
       }
@@ -722,16 +742,18 @@
           const response = await fetch("/api/pendaftar_status", {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ 
-              id: parseInt(id), 
+            body: JSON.stringify({
+              id: parseInt(id),
               status: status,
-              alasan: catatan || null
+              alasan: catatan || null,
             }),
           });
 
           const result = await response.json();
           if (result.success) {
-            bootstrap.Modal.getInstance(document.getElementById("verifikasiModal")).hide();
+            bootstrap.Modal.getInstance(
+              document.getElementById("verifikasiModal")
+            ).hide();
             alert(`Status berhasil diubah menjadi "${status}"!`);
             loadPendaftar();
           } else {

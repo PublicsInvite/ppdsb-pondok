@@ -569,7 +569,9 @@
 
       // Load Profil Data
       function loadProfilData() {
-        const profilData = JSON.parse(localStorage.getItem("profilData") || "[]");
+        const profilData = JSON.parse(
+          localStorage.getItem("profilData") || "[]"
+        );
         const container = document.getElementById("profilContainer");
 
         if (profilData.length === 0) {
