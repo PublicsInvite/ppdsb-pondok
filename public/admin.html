@@ -1437,10 +1437,22 @@
       }
 
       // Export to CSV function
+      // Export to CSV function
       function exportToCSV() {
         if (allPendaftarData.length === 0) {
           alert('Tidak ada data untuk di-export');
           return;
+        }
+
+        // Helper function to escape CSV values
+        function escapeCSV(value) {
+          if (value === null || value === undefined) return '';
+          const stringValue = String(value);
+          // Escape quotes by doubling them and wrap in quotes if contains comma, quote, or newline
+          if (stringValue.includes('"') || stringValue.includes(',') || stringValue.includes('\n')) {
+            return `"${stringValue.replace(/"/g, '""')}"`;
+          }
+          return `"${stringValue}"`;
         }
 
         // Define CSV headers
@@ -1472,42 +1484,46 @@
           'Verifikasi Oleh'
         ];
 
-        // Convert data to CSV rows
-        const csvRows = [headers.join(',')];
+        // Create CSV rows
+        const csvRows = [];
         
+        // Add headers
+        csvRows.push(headers.map(h => escapeCSV(h)).join(','));
+        
+        // Add data rows
         allPendaftarData.forEach(item => {
           const row = [
-            item.nomor_registrasi || '',
-            item.tanggal_daftar || '',
-            item.status || '',
-            item.nik || '',
-            `"${item.nama_lengkap || ''}"`,
-            `"${item.tempat_lahir || ''}"`,
-            item.tanggal_lahir || '',
-            item.jenis_kelamin || '',
-            item.no_hp || '',
-            `"${item.alamat_jalan || ''}"`,
-            `"${item.desa || ''}"`,
-            `"${item.kecamatan || ''}"`,
-            `"${item.kab_kota || ''}"`,
-            `"${item.provinsi || ''}"`,
-            `"${item.ijazah_terakhir || ''}"`,
-            `"${item.sekolah_domisili || ''}"`,
-            item.tingkat || '',
-            item.kelas || '',
-            item.nik_ayah || '',
-            `"${item.nama_ayah || ''}"`,
-            item.nik_ibu || '',
-            `"${item.nama_ibu || ''}"`,
-            `"${item.alasan || ''}"`,
-            item.verifiedat || '',
-            `"${item.verifiedby || ''}"`
+            escapeCSV(item.nomor_registrasi),
+            escapeCSV(item.tanggal_daftar),
+            escapeCSV(item.status),
+            escapeCSV(item.nik),
+            escapeCSV(item.nama_lengkap),
+            escapeCSV(item.tempat_lahir),
+            escapeCSV(item.tanggal_lahir),
+            escapeCSV(item.jenis_kelamin),
+            escapeCSV(item.no_hp),
+            escapeCSV(item.alamat_jalan),
+            escapeCSV(item.desa),
+            escapeCSV(item.kecamatan),
+            escapeCSV(item.kab_kota),
+            escapeCSV(item.provinsi),
+            escapeCSV(item.ijazah_terakhir),
+            escapeCSV(item.sekolah_domisili),
+            escapeCSV(item.tingkat),
+            escapeCSV(item.kelas),
+            escapeCSV(item.nik_ayah),
+            escapeCSV(item.nama_ayah),
+            escapeCSV(item.nik_ibu),
+            escapeCSV(item.nama_ibu),
+            escapeCSV(item.alasan),
+            escapeCSV(item.verifiedat),
+            escapeCSV(item.verifiedby)
           ];
           csvRows.push(row.join(','));
         });
 
-        // Create CSV content
-        const csvContent = csvRows.join('\n');
+        // Create CSV content with BOM for Excel
+        const csvContent = '\uFEFF' + csvRows.join('\r\n');
         
         // Create blob and download
         const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -1523,6 +1539,9 @@
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+        
+        // Clean up
+        URL.revokeObjectURL(url);
       }
 
       // Load initial data
