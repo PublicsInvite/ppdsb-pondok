@@ -2,6 +2,7 @@ from http.server import BaseHTTPRequestHandler
 import json
 from urllib.parse import parse_qs, urlparse
 from ._supabase import supabase_client
+from typing import Any, Dict
 
 class handler(BaseHTTPRequestHandler):
     def do_GET(self):
@@ -31,7 +32,7 @@ class handler(BaseHTTPRequestHandler):
             supa = supabase_client(service_role=False)
             result = supa.table("pendaftar").select("*").eq("nomorregistrasi", nomor).execute()
             
-            if not result.data:
+            if not result.data:  # type: ignore
                 self.send_response(404)
                 self.send_header('Content-Type', 'application/json')
                 self.send_header('Access-Control-Allow-Origin', '*')
@@ -42,7 +43,7 @@ class handler(BaseHTTPRequestHandler):
                 }).encode())
                 return
             
-            row = result.data[0]
+            row: Dict[str, Any] = result.data[0]  # type: ignore
             
             # Transform data
             data = {

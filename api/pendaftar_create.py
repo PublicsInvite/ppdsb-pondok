@@ -1,6 +1,7 @@
 from http.server import BaseHTTPRequestHandler
 import json
 import re
+from typing import Any, Dict
 from ._supabase import supabase_client
 
 class handler(BaseHTTPRequestHandler):
@@ -57,10 +58,10 @@ class handler(BaseHTTPRequestHandler):
             supa = supabase_client(service_role=False)  # Use ANON_KEY
             result = supa.table("pendaftar").insert(payload).execute()
             
-            if not result.data:
+            if not result.data:  # type: ignore
                 raise Exception("Failed to create pendaftar")
             
-            result_data = result.data[0]
+            result_data: Dict[str, Any] = result.data[0]  # type: ignore
             
             # Response success
             self.send_response(201)

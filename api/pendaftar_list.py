@@ -1,6 +1,7 @@
 from http.server import BaseHTTPRequestHandler
 import json
 from urllib.parse import parse_qs, urlparse
+from typing import Any, Dict, List
 from ._supabase import supabase_client
 
 class handler(BaseHTTPRequestHandler):
@@ -43,23 +44,24 @@ class handler(BaseHTTPRequestHandler):
             res = query.range(from_, to_).execute()
             
             # Get total count
-            count_res = supa.table("pendaftar").select("*", count="exact").execute()
-            total = count_res.count if hasattr(count_res, 'count') else len(res.data)
+            count_res = supa.table("pendaftar").select("*", count="exact").execute()  # type: ignore
+            total = count_res.count if hasattr(count_res, 'count') else len(res.data)  # type: ignore
             
             # Transform data untuk admin dashboard
-            transformed_data = []
-            for row in res.data:
+            transformed_data: List[Dict[str, Any]] = []
+            for row in res.data:  # type: ignore
+                row_dict: Dict[str, Any] = row  # type: ignore
                 transformed_data.append({
-                    "id": row.get("id"),
-                    "nama": row.get("namalengkap", ""),
-                    "email": row.get("emailcalon", "-"),
-                    "no_hp": row.get("nomorhportu", "-"),
-                    "alamat": f"{row.get('alamatjalan', '')}, {row.get('desa', '')}, {row.get('kecamatan', '')}",
-                    "status": row.get("statusberkas", "pending").lower(),
-                    "created_at": row.get("createdat", ""),
-                    "alasan": row.get("alasan", "-"),
+                    "id": row_dict.get("id"),
+                    "nama": row_dict.get("namalengkap", ""),
+                    "email": row_dict.get("emailcalon", "-"),
+                    "no_hp": row_dict.get("nomorhportu", "-"),
+                    "alamat": f"{row_dict.get('alamatjalan', '')}, {row_dict.get('desa', '')}, {row_dict.get('kecamatan', '')}",
+                    "status": row_dict.get("statusberkas", "pending").lower(),
+                    "created_at": row_dict.get("createdat", ""),
+                    "alasan": row_dict.get("alasan", "-"),
                     # Include original data for detail view
-                    **row
+                    **row_dict
                 })
             
             # Response
