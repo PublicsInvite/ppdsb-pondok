@@ -4,63 +4,20 @@
     {
       "src": "api/*.py",
       "use": "@vercel/python"
-    },
-    {
-      "src": "*.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "assets/**",
-      "use": "@vercel/static"
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/api/pendaftar_create",
-      "dest": "/api/pendaftar_create.py"
+      "source": "/",
+      "destination": "/index.html"
     },
     {
-      "src": "/api/pendaftar_list",
-      "dest": "/api/pendaftar_list.py"
+      "source": "/daftar",
+      "destination": "/daftar.html"
     },
     {
-      "src": "/api/pendaftar_status",
-      "dest": "/api/pendaftar_status.py"
-    },
-    {
-      "src": "/",
-      "dest": "/index.html"
-    },
-    {
-      "src": "/daftar",
-      "dest": "/daftar.html"
-    },
-    {
-      "src": "/admin",
-      "dest": "/admin.html"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
-    }
-  ],
-  "headers": [
-    {
-      "source": "/api/(.*)",
-      "headers": [
-        {
-          "key": "Access-Control-Allow-Origin",
-          "value": "*"
-        },
-        {
-          "key": "Access-Control-Allow-Methods",
-          "value": "GET, POST, PATCH, OPTIONS"
-        },
-        {
-          "key": "Access-Control-Allow-Headers",
-          "value": "Content-Type"
-        }
-      ]
+      "source": "/admin",
+      "destination": "/admin.html"
     }
   ]
 }
